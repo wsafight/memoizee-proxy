@@ -34,7 +34,6 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
       }
 
       if (!currentCache.has(cacheKey)){
-
         let result = target.apply(thisArg, argsList)
         // 如果是 promise 则 cache promise
         if (result?.then) {
@@ -44,7 +43,6 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
             return Promise.reject(error)
           })
         }
-
         currentCache.set(cacheKey, result);
       }
       return currentCache.get(cacheKey);
