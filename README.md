@@ -1,6 +1,6 @@
 # memoizee-proxy
 
-Read this in other languages: [简体中文](https://github.com/LazierGame/react-time-range-selector/blob/main/README.zh-CN.md)
+Read this in other languages: [简体中文](https://github.com/wsafight/momeizee-proxy/blob/main/README.zh-CN.md)
 
 Memoize based on Proxy.
 
