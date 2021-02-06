@@ -9,7 +9,7 @@ interface MemoizeOptions {
 
 
 
-export default function memoize  (fn: (...args: any[]) => any, options: MemoizeOptions) {
+function memoize  (fn: (...args: any[]) => any, options?: MemoizeOptions) {
 
   const normalizer = options?.normalizer ?? generateKey
 
@@ -19,11 +19,31 @@ export default function memoize  (fn: (...args: any[]) => any, options: MemoizeO
     // @ts-ignore
     cache,
     apply(target, thisArg, argsList: any[]) {
-      const cache: Map<string, any> = (this as any).cache
+      const currentCache: Map<string, any> = (this as any).cache
       const cacheKey: string = normalizer(argsList);
-      if (!cache.has(cacheKey))
-        cache.set(cacheKey, target.apply(thisArg, argsList));
-      return cache.get(cacheKey);
+      let result = target.apply(thisArg, argsList)
+      // 如果当前是 promise 异步
+      if (target?.then) {
+        result = result.catch(error => {
+          currentCache.delete(cacheKey)
+          console.log(error)
+          // return Promise.reject(error)
+        })
+      }
+      if (!currentCache.has(cacheKey))
+        currentCache.set(cacheKey, result);
+      return currentCache.get(cacheKey);
     }
   });
 }
+
+
+var afn = function(a, b) {
+  return new Promise(function(res,reject) {
+    res(a + b);
+  });
+};
+var memoized = memoize(afn);
+
+memoized(3, 7);
+memoized(3, 7);
