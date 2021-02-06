@@ -1,19 +1,34 @@
-const memoize = (fn: (...args: any[]) => any) =>
-  new Proxy<any>(fn, {
-    // @ts-ignore
-    cache: new Map<string, any>(),
-    apply(target, thisArg, argsList) {
-      const cache: Map<string, any> = (this as any).cache
-      const cacheKey = argsList.toString();
-      if (!cache.has(cacheKey))
-        cache.set(cacheKey, target.apply(thisArg, argsList));
-      return cache.get(cacheKey);
-    }
-  });
+interface MemoizeOptions {
+  /** 保证缓存函数参数的唯一性 */
+  normalizer: any;
+  async?: boolean
+}
 
-const fibonacci = (n: number): number => (n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2));
+export default function memoize(fn: any, options?: MemoizeOptions) {
 
-const memoizedFibonacci = memoize(fibonacci);
+  if (!options.normalizer) {
 
-for (let i = 0; i < 100; i++) fibonacci(30); // ~5000ms
-for (let i = 0; i < 100; i++) memoizedFibonacci(30); // ~50ms
+    // length = options.length = resolveLength(options.length, fn.length, options.async);
+    // if (length !== 0) {
+    //   if (options.primitive) {
+    //     if (length === false) {
+    //       options.normalizer = require("./normalizers/primitive");
+    //     } else if (length > 1) {
+    //       options.normalizer = require("./normalizers/get-primitive-fixed")(length);
+    //     }
+    //   } else if (length === false) options.normalizer = require("./normalizers/get")();
+    //   else if (length === 1) options.normalizer = require("./normalizers/get-1")();
+    //   else options.normalizer = require("./normalizers/get-fixed")(length);
+    // }
+  }
+
+  // Assure extensions
+  if (options.async) require("./ext/async");
+  // if (options.promise) require("./ext/promise");
+  // if (options.dispose) require("./ext/dispose");
+  // if (options.maxAge) require("./ext/max-age");
+  // if (options.max) require("./ext/max");
+  // if (options.refCounter) require("./ext/ref-counter");
+
+  // return plain(fn, options);
+}
