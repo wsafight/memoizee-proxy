@@ -1,6 +1,6 @@
 const generateKeyError = new Error("Can't generate key from function argument")
 
-// 生成key值
+// 根据参数生成生成 key 值
 export function generateKey(argument: any[]): string {
   // 从arguments 中取得数据然后变为数组
   const params = Array.from(argument).join(',')
