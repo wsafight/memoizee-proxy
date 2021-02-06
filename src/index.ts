@@ -34,8 +34,8 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
         cacheKey = normalizer(argsList);
       }
 
-
       if (!currentCache.has(cacheKey)){
+        console.log('zzzz')
         let result = target.apply(thisArg, argsList)
 
         // 如果是 promise 则缓存 promise
@@ -43,7 +43,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
           result = Promise.resolve(result).catch(error => {
             // 发生错误，删除当前 promise，否则会引发二次错误
             currentCache.delete(cacheKey)
-            // 把数据衍生出去
+            // 把 promise 错误衍生出去
             return Promise.reject(error)
           })
         }
