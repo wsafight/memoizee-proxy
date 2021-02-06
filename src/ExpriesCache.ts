@@ -1,10 +1,10 @@
 import { CacheMap, MemoizeCache } from './interface'
 
-class ItemCache {
+class ItemCache<V> {
   cacheTime: number;
-  data: any;
+  data: V;
 
-  constructor(data: any) {
+  constructor(data: V) {
     this.data = data
     // 创建对象时候的时间，大约设定为数据获得的时间
     this.cacheTime = (new Date()).getTime()
@@ -66,7 +66,7 @@ export default class ExpriesCache<V> implements CacheMap<string | object, V> {
   // 默认存储20分钟
   set(name: string | object, data: V) {
     // 设置 itemCache
-    const itemCache = new ItemCache(data)
+    const itemCache = new ItemCache<V>(data)
     //缓存
     this.cacheMap.set(name, itemCache)
     return this

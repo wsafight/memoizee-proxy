@@ -3,24 +3,25 @@ import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpriesCache from "./ExpriesCache";
 
 
-export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
+export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
   const normalizer = options?.normalizer ?? generateKey
 
-  let cache: MemoizeCache = new Map<string, any>()
+  let cache: MemoizeCache = new Map<string, T>()
 
   if (options.weak) {
-    cache = new WeakMap<object, any>()
+    cache = new WeakMap<object, T>()
   }
 
   if (typeof options.timeout === "number" && options.timeout > 0) {
-    cache = new ExpriesCache<any>(cache, options.timeout)
+    cache = new ExpriesCache<T>(cache, options.timeout)
   }
 
-  return new Proxy<any>(fn, {
+  return new Proxy(fn, {
     // @ts-ignore
     cache,
-    apply(target, thisArg, argsList: any[]) {
+
+    apply(target, thisArg, argsList: any[]): T {
 
       const currentCache: MemoizeCache = (this as any).cache
 
@@ -28,18 +29,21 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
 
       if (options.weak) {
         // 如果是 weakMap，则取得第一个数值
-        cacheKey = argsList[0] as Record<string, any>
+        cacheKey = argsList[0] as object
       } else {
         cacheKey = normalizer(argsList);
       }
 
+
       if (!currentCache.has(cacheKey)){
         let result = target.apply(thisArg, argsList)
-        // 如果是 promise 则 cache promise
+
+        // 如果是 promise 则缓存 promise
         if (result?.then) {
           result = Promise.resolve(result).catch(error => {
             // 发生错误，删除当前 promise，否则会引发二次错误
             currentCache.delete(cacheKey)
+            // 把数据衍生出去
             return Promise.reject(error)
           })
         }
