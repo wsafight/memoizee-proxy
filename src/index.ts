@@ -3,13 +3,10 @@ import { generateKey } from "./generateKey";
 interface MemoizeOptions {
   /** 保证缓存函数参数的唯一性 */
   normalizer?: (args: any[]) => string;
-  /** 缓存异步函数 */
-  async?: boolean
 }
 
 
-
-function memoize  (fn: (...args: any[]) => any, options?: MemoizeOptions) {
+function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
 
   const normalizer = options?.normalizer ?? generateKey
 
@@ -22,12 +19,12 @@ function memoize  (fn: (...args: any[]) => any, options?: MemoizeOptions) {
       const currentCache: Map<string, any> = (this as any).cache
       const cacheKey: string = normalizer(argsList);
       let result = target.apply(thisArg, argsList)
-      // 如果当前是 promise 异步
-      if (target?.then) {
-        result = result.catch(error => {
+      // 如果是 promise 则 cache promise
+      if (result?.then) {
+        result = Promise.resolve(result).catch(error => {
+          // 发生错误，删除当前 promise，否则回引发二次错误
           currentCache.delete(cacheKey)
-          console.log(error)
-          // return Promise.reject(error)
+          return Promise.reject(error)
         })
       }
       if (!currentCache.has(cacheKey))
@@ -38,12 +35,11 @@ function memoize  (fn: (...args: any[]) => any, options?: MemoizeOptions) {
 }
 
 
-var afn = function(a, b) {
-  return new Promise(function(res,reject) {
-    res(a + b);
+var afn = function (a, b) {
+  return new Promise(function (res, reject) {
+    reject(a + b);
   });
 };
 var memoized = memoize(afn);
 
-memoized(3, 7);
 memoized(3, 7);
