@@ -3,6 +3,8 @@ import { generateKey } from "./generateKey";
 interface MemoizeOptions {
   /** 保证缓存函数参数的唯一性 */
   normalizer?: (args: any[]) => string;
+  /** 使用 weakMap */
+  weak?: boolean
 }
 
 
@@ -10,7 +12,11 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
 
   const normalizer = options?.normalizer ?? generateKey
 
-  const cache = new Map<string, any>()
+  let cache: Map<string, any> | WeakMap<object, any> = new Map<string, any>()
+
+  if (options.weak) {
+    cache = new WeakMap<object, any>()
+  }
 
   return new Proxy<any>(fn, {
     // @ts-ignore
