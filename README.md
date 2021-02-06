@@ -7,6 +7,10 @@ Memoize based on Proxy.
 
 ## features
 
+- Works with any type of function arguments – no serialization is needed.
+- Works with any length of function arguments. Length can be set as fixed or dynamic.
+- Support for promises and asynchronous functions.
+- WeakMap based mode for garbage collection friendly configuration
 
 ## API
 
@@ -16,4 +20,9 @@ Memoize based on Proxy.
 | weak | Using WeakMap  | boolean | false |
 | timeout | Timeout duration, expired delete | number | undefined |
 
+
+## Changelog
+
+### 0.0.1
+- Basically available, add parameters "normalizer"、 "weak" 、"timeout"
 
