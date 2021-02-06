@@ -1,25 +1,6 @@
 import { generateKey } from "./generateKey";
-
-interface CacheMap<K ,V> {
-  delete(key: K): boolean;
-  get(key: K): V | undefined;
-  has(key: K): boolean;
-  set(key: K, value: V): this;
-}
-
-/**
- * 缓存类型
- */
-type MemoizeCache = CacheMap<string | object, any>
-
-interface MemoizeOptions {
-  /** 保证缓存函数参数的唯一性 */
-  normalizer?: (args: any[]) => string;
-  /** 使用 weakMap */
-  weak?: boolean;
-  /** 超时后则取数据为空 */
-  timeout?: number
-}
+import { MemoizeCache, MemoizeOptions } from "./interface";
+import ExpriesCache from "./ExpriesCache";
 
 
 export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
@@ -30,6 +11,10 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
 
   if (options.weak) {
     cache = new WeakMap<object, any>()
+  }
+
+  if (typeof options.timeout === "number" && options.timeout > 0) {
+    cache = new ExpriesCache<any>(cache, options.timeout)
   }
 
   return new Proxy<any>(fn, {
@@ -48,20 +33,20 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
         cacheKey = normalizer(argsList);
       }
 
-      let result = target.apply(thisArg, argsList)
-      // 如果是 promise 则 cache promise
-      if (result?.then) {
-        result = Promise.resolve(result).catch(error => {
-          // 发生错误，删除当前 promise，否则会引发二次错误
-          currentCache.delete(cacheKey)
-          return Promise.reject(error)
-        })
-      }
-
       if (!currentCache.has(cacheKey)){
+
+        let result = target.apply(thisArg, argsList)
+        // 如果是 promise 则 cache promise
+        if (result?.then) {
+          result = Promise.resolve(result).catch(error => {
+            // 发生错误，删除当前 promise，否则会引发二次错误
+            currentCache.delete(cacheKey)
+            return Promise.reject(error)
+          })
+        }
+
         currentCache.set(cacheKey, result);
       }
-
       return currentCache.get(cacheKey);
     }
   });
