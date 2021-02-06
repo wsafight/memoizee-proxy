@@ -24,11 +24,5 @@ export default function memoize(fn: any, options?: MemoizeOptions) {
 
   // Assure extensions
   if (options.async) require("./ext/async");
-  // if (options.promise) require("./ext/promise");
-  // if (options.dispose) require("./ext/dispose");
-  // if (options.maxAge) require("./ext/max-age");
-  // if (options.max) require("./ext/max");
-  // if (options.refCounter) require("./ext/ref-counter");
 
-  // return plain(fn, options);
 }
