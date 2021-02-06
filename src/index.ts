@@ -6,7 +6,7 @@ interface MemoizeOptions {
 }
 
 
-function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
+export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
 
   const normalizer = options?.normalizer ?? generateKey
 
@@ -33,13 +33,3 @@ function memoize(fn: (...args: any[]) => any, options?: MemoizeOptions) {
     }
   });
 }
-
-
-var afn = function (a, b) {
-  return new Promise(function (res, reject) {
-    reject(a + b);
-  });
-};
-var memoized = memoize(afn);
-
-memoized(3, 7);
