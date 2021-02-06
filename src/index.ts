@@ -1,6 +1,6 @@
 import { generateKey } from "./generateKey";
 
-interface MapType<K ,V> {
+interface CacheMap<K ,V> {
   delete(key: K): boolean;
   get(key: K): V | undefined;
   has(key: K): boolean;
@@ -10,7 +10,7 @@ interface MapType<K ,V> {
 /**
  * 缓存类型
  */
-type MemoizeCache = MapType<string | object, any>
+type MemoizeCache = CacheMap<string | object, any>
 
 interface MemoizeOptions {
   /** 保证缓存函数参数的唯一性 */
