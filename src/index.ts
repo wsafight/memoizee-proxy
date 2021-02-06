@@ -16,7 +16,9 @@ interface MemoizeOptions {
   /** 保证缓存函数参数的唯一性 */
   normalizer?: (args: any[]) => string;
   /** 使用 weakMap */
-  weak?: boolean
+  weak?: boolean;
+  /** 超时后则取数据为空 */
+  timeout?: number
 }
 
 
@@ -50,7 +52,7 @@ export default function memoize(fn: (...args: any[]) => any, options?: MemoizeOp
       // 如果是 promise 则 cache promise
       if (result?.then) {
         result = Promise.resolve(result).catch(error => {
-          // 发生错误，删除当前 promise，否则回引发二次错误
+          // 发生错误，删除当前 promise，否则会引发二次错误
           currentCache.delete(cacheKey)
           return Promise.reject(error)
         })
