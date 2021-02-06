@@ -28,6 +28,35 @@ yarn add react-time-range-selector
 | weak | 是否使用 WeakMap  | boolean | false |
 | timeout | 超时时长，过时删除 | number | undefined |
 
+## 用法
+
+```ts
+import memoizee from 'memoizee-proxy'
+
+var fn = function(one, two, three) {
+	/* ... */
+};
+
+memoized = memoize(fn);
+
+memoized("foo", 3, "bar");
+memoized("foo", 3, "bar"); // Cache hit
+```
+
+```ts
+var afn = function(a, b) {
+	return new Promise(function(res) {
+		res(a + b);
+	});
+};
+memoized = memoize(afn, { promise: true });
+
+memoized(3, 7);
+memoized(3, 7); // Cache hit
+```
+
+
+
 
 ## Changelog
 
