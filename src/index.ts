@@ -1,6 +1,6 @@
 import { generateKey } from "./generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
-import ExpriesCache from "./ExpriesCache";
+import ExpiredCache from "./ExpiredCache";
 
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
@@ -14,7 +14,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
   }
 
   if (typeof options.timeout === "number" && options.timeout > 0) {
-    cache = new ExpriesCache<T>(cache, options.timeout)
+    cache = new ExpiredCache<T>(cache, options.timeout)
   }
 
   return new Proxy(fn, {

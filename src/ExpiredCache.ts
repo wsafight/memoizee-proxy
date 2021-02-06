@@ -11,7 +11,7 @@ class ItemCache<V> {
   }
 }
 
-export default class ExpriesCache<V> implements CacheMap<string | object, V> {
+export default class ExpiredCache<V> implements CacheMap<string | object, V> {
   // 定义静态数据map来作为缓存池
   cacheMap: MemoizeCache
   // 超时时间
