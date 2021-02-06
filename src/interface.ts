@@ -11,7 +11,7 @@ export interface CacheMap<K ,V> {
 export type MemoizeCache = CacheMap<string | object, any>
 
 export interface MemoizeOptions {
-  /** 保证缓存函数参数的唯一性 */
+  /** 根据当前参数生成key, 保证缓存函数参数的唯一性 */
   normalizer?: (args: any[]) => string;
   /** 使用 weakMap */
   weak?: boolean;
