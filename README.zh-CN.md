@@ -8,6 +8,18 @@
 - 支持 Promise 和异步函数。
 - 可配置 weak 提供 WeakMap(友好的垃圾回收)。
 
+## 安装
+
+```bash
+npm install react-time-range-selector
+```
+
+或者
+
+```bash
+yarn add react-time-range-selector
+```
+
 ## API
 
 | 参数 | 说明 | 类型 | 默认值 |
