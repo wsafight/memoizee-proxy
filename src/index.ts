@@ -28,22 +28,21 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
       let cacheKey: string | object
 
       if (options.weak) {
-        // 如果是 weakMap，则取得第一个数值
+        // If it is WeakMap, the first data of the parameter
         cacheKey = argsList[0] as object
       } else {
         cacheKey = normalizer(argsList);
       }
 
       if (!currentCache.has(cacheKey)){
-        console.log('zzzz')
         let result = target.apply(thisArg, argsList)
 
-        // 如果是 promise 则缓存 promise
+        //If it is promise, cache current promise
         if (result?.then) {
           result = Promise.resolve(result).catch(error => {
-            // 发生错误，删除当前 promise，否则会引发二次错误
+            // If there is an error, delete the current cache promise, otherwise it will cause a second error
             currentCache.delete(cacheKey)
-            // 把 promise 错误衍生出去
+            // Deriving the promise error
             return Promise.reject(error)
           })
         }

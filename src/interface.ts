@@ -11,10 +11,10 @@ export interface CacheMap<K ,V> {
 export type MemoizeCache = CacheMap<string | object, any>
 
 export interface MemoizeOptions {
-  /** 根据当前参数生成key, 保证缓存函数参数的唯一性 */
+  /** Generates a unique value based on the current parameter */
   normalizer?: (args: any[]) => string;
-  /** 使用 weakMap */
+  /** using weakMap */
   weak?: boolean;
-  /** 超时后则取数据为空 */
+  /** Timeout duration, expired delete */
   timeout?: number
 }
