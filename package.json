@@ -1,0 +1,42 @@
+{
+  "name": "memoizee-proxy",
+  "version": "0.0.1",
+  "description": "Memoize/cache function results",
+  "author": "jump-jump <984292420@qq.com>",
+  "keywords": [
+    "memoize",
+    "memoizer",
+    "cache",
+    "memoization",
+    "memo",
+    "memcached",
+    "hashing.",
+    "storage",
+    "caching",
+    "memory",
+    "gc",
+    "weak",
+    "garbage",
+    "collector",
+    "async",
+    "proxy"
+  ],
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wsafight/memoizee-proxy.git"
+  },
+  "source": "src/index.ts",
+  "main": "dist/foo.js",
+  "exports": "dist/foo.modern.js",
+  "module": "dist/foo.module.js",
+  "unpkg": "dist/foo.umd.js",
+  "dependencies": {},
+  "devDependencies": {
+    "microbundle": "^0.13.0"
+  },
+  "license": "MIT"
+}
