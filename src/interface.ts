@@ -16,5 +16,7 @@ export interface MemoizeOptions {
   /** using weakMap */
   weak?: boolean;
   /** Timeout duration, expired delete */
-  timeout?: number
+  timeout?: number;
+  /**  */
+  refCounter?: boolean
 }

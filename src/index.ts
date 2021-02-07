@@ -1,6 +1,9 @@
 import { generateKey } from "./generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredCache from "./ExpiredCache";
+import RefCache from "./RefCache";
+import { invariant } from "./inveriant";
+
 
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
@@ -11,6 +14,16 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
 
   if (options?.weak) {
     cache = new WeakMap<object, T>()
+  }
+
+  invariant(
+    typeof options?.timeout === 'number' && options?.refCounter === true,
+    'arguments timeout and refCounter cannot exist at the same time'
+  )
+
+
+  if (options?.refCounter) {
+    cache = new RefCache<T>(cache)
   }
 
   if (typeof options?.timeout === "number" && options.timeout > 0) {
@@ -34,7 +47,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
         cacheKey = normalizer(argsList);
       }
 
-      if (!currentCache.has(cacheKey)){
+      if (!currentCache.has(cacheKey)) {
         let result = target.apply(thisArg, argsList)
 
         //If it is promise, cache current promise
