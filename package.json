@@ -35,7 +35,9 @@
   "exports": "dist/index.modern.js",
   "module": "dist/index.module.js",
   "unpkg": "dist/index.umd.js",
-  "dependencies": {},
+  "dependencies": {
+    "lru-queue": "^0.1.0"
+  },
   "devDependencies": {
     "microbundle": "^0.13.0"
   },
