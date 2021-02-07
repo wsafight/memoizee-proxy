@@ -7,19 +7,13 @@ Memoize based on Proxy.
 
 ## features
 
-- Works with any type, any length of function arguments - optional serialization.
-- Support for promises and asynchronous functions.
-- Configurable weak provides a WeakMap (friendly garbage collection).
-- [ ] Multi-file upload
-- [ ] Upload directory
-- [ ] Drag upload
-- [ ] Drag the directory
-- [ ] Upload multiple files at the same time
-- [ ] html4 (IE 9)
-- [ ] `PUT` method
-- [ ] Customize the filter
-- [ ] thumbnails
-- [ ] Chunk upload
+- [x] Works with any type, any length of function arguments - optional serialization.
+- [x] Support for promises and asynchronous functions.
+- [x] Configurable weak provides a WeakMap (friendly garbage collection).
+- [ ] Cache can be cleared manually.
+- [ ] Cache size can be limited on LRU basis.
+- [ ] Optional reference counter mode, that allows more sophisticated cache management.
+- [ ] unit tests.
 
 ## API
 
