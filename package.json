@@ -31,10 +31,10 @@
     "url": "git://github.com/wsafight/memoizee-proxy.git"
   },
   "source": "src/index.ts",
-  "main": "dist/foo.js",
-  "exports": "dist/foo.modern.js",
-  "module": "dist/foo.module.js",
-  "unpkg": "dist/foo.umd.js",
+  "main": "dist/index.js",
+  "exports": "dist/index.modern.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.13.0"
