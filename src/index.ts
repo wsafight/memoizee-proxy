@@ -9,11 +9,11 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
 
   let cache: MemoizeCache = new Map<string, T>()
 
-  if (options.weak) {
+  if (options?.weak) {
     cache = new WeakMap<object, T>()
   }
 
-  if (typeof options.timeout === "number" && options.timeout > 0) {
+  if (typeof options?.timeout === "number" && options.timeout > 0) {
     cache = new ExpiredCache<T>(cache, options.timeout)
   }
 
@@ -27,7 +27,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
 
       let cacheKey: string | object
 
-      if (options.weak) {
+      if (options?.weak) {
         // If it is WeakMap, the first data of the parameter
         cacheKey = argsList[0] as object
       } else {

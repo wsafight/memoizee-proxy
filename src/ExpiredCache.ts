@@ -22,7 +22,7 @@ export default class ExpiredCache<V> implements CacheMap<string | object, V> {
     this.timeout = timeout
   }
 
-  isOverTime(name) {
+  isOverTime(name: string) {
     const data = this.cacheMap.get(name)
 
     // No data must time out,  The current value is ItemCache
@@ -44,15 +44,15 @@ export default class ExpiredCache<V> implements CacheMap<string | object, V> {
     return false
   }
 
-  has(name) {
+  has(name: string) {
     return !this.isOverTime(name)
   }
 
-  delete(name) {
+  delete(name: string) {
     return this.cacheMap.delete(name)
   }
 
-  get(name) {
+  get(name: string) {
     // If the data times out, null is returned, but there is no time out, and the data is returned instead of the ItemCache object
     return this.isOverTime(name) ? null : this.cacheMap.get(name).data
   }
