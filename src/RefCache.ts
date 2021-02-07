@@ -5,29 +5,46 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
   cacheMap: MemoizeCache
   cacheRef: MemoizeCache
 
-  constructor(cacheMap: MemoizeCache,) {
+  constructor(cacheMap: MemoizeCache) {
     this.cacheMap = cacheMap
     this.cacheRef = cacheMap instanceof WeakMap ? new WeakMap() : new Map()
   }
 
   delete(key: string | object): boolean {
-    console.log(key)
-    return false;
+    this.cacheRef.delete(key)
+    this.cacheMap.delete(key)
+    return true;
+  }
+
+  deleteRef(key: string | object): boolean {
+    const refCount: number = this.cacheRef.get(key)
+    if (typeof refCount === "number") {
+      let currentRefCount = refCount - 1
+      if (currentRefCount) {
+        this.cacheRef.set(key, currentRefCount)
+      } else {
+        this.cacheRef.delete(key)
+        this.cacheMap.delete(key)
+      }
+    }
+    return true
   }
 
   get(key: string | object): V | undefined {
-    console.log(key)
-    return undefined;
+    return this.cacheMap.get(key)
   }
 
   has(key: string | object): boolean {
-    console.log(key)
-    return false;
+    const value: number = this.cacheRef.get(key)
+    return !!value;
   }
 
   set(key: string | object, value: V,): this {
-    console.log(key, value)
-    return this;
+    if (!this.has(key)) {
+      this.cacheMap.set(key, value)
+    }
+    this.cacheRef.set(key, (this.cacheRef.get(key) ?? 0) + 1)
+    return this
   }
 
 }

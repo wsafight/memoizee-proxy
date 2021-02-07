@@ -5,7 +5,6 @@ import RefCache from "./RefCache";
 import { invariant } from "./inveriant";
 
 
-
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
   const normalizer = options?.normalizer ?? generateKey
@@ -60,6 +59,8 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
           })
         }
         currentCache.set(cacheKey, result);
+      } else if (options?.refCounter){
+        currentCache.set(cacheKey, currentCache.get(cacheKey))
       }
       return currentCache.get(cacheKey);
     }
