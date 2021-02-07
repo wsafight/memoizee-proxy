@@ -1,5 +1,6 @@
 # memoizee-proxy
 
+
 Read this in other languages: [简体中文](https://github.com/wsafight/memoizee-proxy/blob/main/README.zh-CN.md)
 
 Memoize based on Proxy.
@@ -9,6 +10,16 @@ Memoize based on Proxy.
 - Works with any type, any length of function arguments - optional serialization.
 - Support for promises and asynchronous functions.
 - Configurable weak provides a WeakMap (friendly garbage collection).
+- [ ] Multi-file upload
+- [ ] Upload directory
+- [ ] Drag upload
+- [ ] Drag the directory
+- [ ] Upload multiple files at the same time
+- [ ] html4 (IE 9)
+- [ ] `PUT` method
+- [ ] Customize the filter
+- [ ] thumbnails
+- [ ] Chunk upload
 
 ## API
 
