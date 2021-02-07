@@ -15,13 +15,13 @@
 ## 安装
 
 ```bash
-npm install react-time-range-selector
+npm install memoizee-proxy
 ```
 
 或者
 
 ```bash
-yarn add react-time-range-selector
+yarn add memoizee-proxy
 ```
 
 ## API
