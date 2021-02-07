@@ -29,6 +29,10 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
     cache = new ExpiredCache<T>(cache, options.timeout)
   }
 
+  fn.prototype.set = cache.set
+  fn.prototype.delete = cache.delete
+  fn.prototype.deleteRef = cache.deleteRef
+
   return new Proxy(fn, {
     // @ts-ignore
     cache,
@@ -62,6 +66,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
       } else if (options?.refCounter){
         currentCache.set(cacheKey, currentCache.get(cacheKey))
       }
+
       return currentCache.get(cacheKey);
     }
   });
