@@ -8,7 +8,6 @@ import getManualFunForCache from "./getManualFunForCache";
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
-  // Inspection priority
   invariant(
     typeof options?.maxAge === 'number' && options?.refCounter === true,
     'arguments maxAge and refCounter cannot exist at the same time'
