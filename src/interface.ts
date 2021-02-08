@@ -17,7 +17,7 @@ export interface MemoizeOptions {
   /** Timeout duration, expired delete */
   maxAge?: number;
   /** How much data can be saved at most? Use LRU  */
-  max: number;
+  max?: number;
   /** manage the cache manually */
   manual?: boolean;
   /** Reference count  */
