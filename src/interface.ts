@@ -18,6 +18,8 @@ export interface MemoizeOptions {
   weak?: boolean;
   /** Timeout duration, expired delete */
   maxAge?: number;
+  /** 最多保存多少数据，使用 lru  */
+  max: number;
   /** manage the cache manually */
   manual?: boolean;
   /** Reference count  */

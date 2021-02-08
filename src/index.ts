@@ -2,16 +2,15 @@ import { generateKey } from "./utils/generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredCache from "./cache/ExpiredCache";
 import RefCache from "./cache/RefCache";
-import { invariant } from "./utils/inveriant";
 import getManualFunForCache from "./getManualFunForCache";
+import checkOptionsThenThrowError from "./checkOptions";
 
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
-  invariant(
-    typeof options?.maxAge === 'number' && options?.refCounter === true,
-    'arguments maxAge and refCounter cannot exist at the same time'
-  )
+  if (options) {
+    checkOptionsThenThrowError(options)
+  }
 
   const normalizer = options?.normalizer ?? generateKey
 
@@ -25,12 +24,17 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
     cache = new RefCache<T>(cache)
   }
 
+  if (typeof options?.max === "number") {
+
+  }
+
+
   if (typeof options?.maxAge === "number" && options.maxAge > 0) {
     cache = new ExpiredCache<T>(cache, options.maxAge)
   }
 
   // Provides management functions based on the current configuration
-  const changedFun:  (...args: any[]) => T = options?.manual ?
+  const changedFun: (...args: any[]) => T = options?.manual ?
     getManualFunForCache<T>(fn, cache) :
     fn
 
@@ -59,6 +63,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
           result = Promise.resolve(result).catch(error => {
             // If there is an error, delete the current cache promise, otherwise it will cause a second error
             currentCache.delete(cacheKey)
+
             // Deriving the promise error
             return Promise.reject(error)
           })
