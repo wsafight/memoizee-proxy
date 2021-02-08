@@ -1,15 +1,6 @@
 import { CacheMap, MemoizeCache } from '../interface'
+import ExpiredCacheItem from "./ExpiredCacheItem";
 
-class ItemCache<V> {
-  cacheTime: number;
-  data: V;
-
-  constructor(data: V) {
-    this.data = data
-    // The time when the object is created is set to the time when the data is obtained
-    this.cacheTime = (new Date()).getTime()
-  }
-}
 
 export default class ExpiredCache<V> implements CacheMap<string | object, V> {
   // Define static data map as cache pool
@@ -58,7 +49,7 @@ export default class ExpiredCache<V> implements CacheMap<string | object, V> {
   }
 
   set(name: string | object, data: V) {
-    const itemCache = new ItemCache<V>(data)
+    const itemCache = new ExpiredCacheItem<V>(data)
     this.cacheMap.set(name, itemCache)
     return this
   }

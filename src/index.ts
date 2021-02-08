@@ -5,7 +5,11 @@ import RefCache from "./cache/RefCache";
 import getManualFunForCache from "./getManualFunForCache";
 import checkOptionsThenThrowError from "./checkOptions";
 
-
+/**
+ *
+ * @param fn
+ * @param options
+ */
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
   if (options) {

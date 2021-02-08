@@ -2,7 +2,7 @@ import { MemoizeCache } from "./interface";
 
 /**
  * Get the function that can manage the cache manually
- * @param obj
+ * @param fn
  * @param cache
  */
 export default function getManualFunForCache<T>(
