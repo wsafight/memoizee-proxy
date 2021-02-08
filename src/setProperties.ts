@@ -10,6 +10,7 @@ export default function setPropertiesForCache<T>(obj: (...args: any[]) => T, cac
       value: (key: string | object) => cache.delete(key),
       writable: false
     },
+    //
     ...cache.deleteRef && {
       deleteRef: {
         value: (key: string | object) => cache.deleteRef!(key),

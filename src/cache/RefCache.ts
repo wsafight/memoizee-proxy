@@ -1,4 +1,4 @@
-import { CacheMap, MemoizeCache } from "./interface";
+import { CacheMap, MemoizeCache } from "../interface";
 
 export default class RefCache<V> implements CacheMap<string | object, V> {
   // Define static data map as cache pool

@@ -17,13 +17,9 @@ export interface MemoizeOptions {
   /** using weakMap */
   weak?: boolean;
   /** Timeout duration, expired delete */
-  timeout?: number;
-  /**  */
-  refCounter?: boolean
+  maxAge?: number;
+  /** manage the cache manually */
+  manual?: boolean;
+  /** Reference count  */
+  refCounter?: boolean;
 }
-
-type BaseMemoizeType = 'Map' | 'weakMap'
-
-type ComplexMemoizeType = 'RefCache' | 'ExpiredCache'
-
-export type MemoizeType = BaseMemoizeType | ComplexMemoizeType

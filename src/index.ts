@@ -1,7 +1,7 @@
 import { generateKey } from "./utils/generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
-import ExpiredCache from "./ExpiredCache";
-import RefCache from "./RefCache";
+import ExpiredCache from "./cache/ExpiredCache";
+import RefCache from "./cache/RefCache";
 import { invariant } from "./utils/inveriant";
 import setPropertiesForCache from "./setProperties";
 
@@ -17,8 +17,8 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
   }
 
   invariant(
-    typeof options?.timeout === 'number' && options?.refCounter === true,
-    'arguments timeout and refCounter cannot exist at the same time'
+    typeof options?.maxAge === 'number' && options?.refCounter === true,
+    'arguments maxAge and refCounter cannot exist at the same time'
   )
 
 
@@ -26,8 +26,8 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
     cache = new RefCache<T>(cache)
   }
 
-  if (typeof options?.timeout === "number" && options.timeout > 0) {
-    cache = new ExpiredCache<T>(cache, options.timeout)
+  if (typeof options?.maxAge === "number" && options.maxAge > 0) {
+    cache = new ExpiredCache<T>(cache, options.maxAge)
   }
 
   setPropertiesForCache<T>(fn, cache)
@@ -62,7 +62,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
           })
         }
         currentCache.set(cacheKey, result);
-      } else if (options?.refCounter){
+      } else if (options?.refCounter) {
         currentCache.set(cacheKey, currentCache.get(cacheKey))
       }
 

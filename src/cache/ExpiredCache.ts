@@ -1,4 +1,4 @@
-import { CacheMap, MemoizeCache } from './interface'
+import { CacheMap, MemoizeCache } from '../interface'
 
 class ItemCache<V> {
   cacheTime: number;
