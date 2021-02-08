@@ -10,9 +10,9 @@ Memoize based on Proxy.
 - [x] Works with any type, any length of function arguments - optional serialization.
 - [x] Support for promises and asynchronous functions.
 - [x] Configurable weak provides a WeakMap (friendly garbage collection).
-- [ ] Cache can be cleared manually.
+- [x] Cache can be managed manually.
 - [ ] Cache size can be limited on LRU basis.
-- [ ] Optional reference counter mode, that allows more sophisticated cache management.
+- [x] Optional reference counter mode, that allows more sophisticated cache management.
 - [ ] unit tests.
 
 ## API
