@@ -3,6 +3,7 @@ export interface CacheMap<K ,V> {
   get(key: K): V | undefined;
   has(key: K): boolean;
   set(key: K, value: V, timeout?: number): this;
+  addRef?(key: K): void;
   deleteRef?(key: K): boolean;
 }
 
