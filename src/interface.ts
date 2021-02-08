@@ -7,9 +7,6 @@ export interface CacheMap<K ,V> {
   deleteRef?(key: K): boolean;
 }
 
-/**
- * 缓存类型
- */
 export type MemoizeCache = CacheMap<string | object, any>
 
 export interface MemoizeOptions {
@@ -19,7 +16,7 @@ export interface MemoizeOptions {
   weak?: boolean;
   /** Timeout duration, expired delete */
   maxAge?: number;
-  /** 最多保存多少数据，使用 lru  */
+  /** How much data can be saved at most? Use LRU  */
   max: number;
   /** manage the cache manually */
   manual?: boolean;
