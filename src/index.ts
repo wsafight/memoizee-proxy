@@ -1,9 +1,9 @@
-import { generateKey } from "./utils/generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
-import ExpiredCache from "./cache/ExpiredCache";
-import RefCache from "./cache/RefCache";
+import { generateKey } from "./utils/generateKey";
 import getManualFunForCache from "./getManualFunForCache";
 import checkOptionsThenThrowError from "./checkOptions";
+import ExpiredCache from "./cache/ExpiredCache";
+import RefCache from "./cache/RefCache";
 import LRUCache from "./cache/LRUCache";
 
 /**
