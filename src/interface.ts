@@ -21,3 +21,9 @@ export interface MemoizeOptions {
   /**  */
   refCounter?: boolean
 }
+
+type BaseMemoizeType = 'Map' | 'weakMap'
+
+type ComplexMemoizeType = 'RefCache' | 'ExpiredCache'
+
+export type MemoizeType = BaseMemoizeType | ComplexMemoizeType

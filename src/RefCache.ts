@@ -17,10 +17,10 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
   }
 
   deleteRef(key: string | object): boolean {
-    const refCount: number = this.cacheRef.get(key)
+    const refCount: number | undefined = this.cacheRef.get(key)
     if (typeof refCount === "number") {
-      let currentRefCount = refCount - 1
-      if (currentRefCount) {
+      const currentRefCount = refCount - 1
+      if (currentRefCount > 0) {
         this.cacheRef.set(key, currentRefCount)
       } else {
         this.cacheRef.delete(key)

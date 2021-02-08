@@ -1,5 +1,5 @@
 /**
- * 检测错误并弹出
+ * 检测错误并抛出
  * @param condition 是否弹出错误
  * @param message
  */

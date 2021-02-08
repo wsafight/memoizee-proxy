@@ -1,8 +1,9 @@
-import { generateKey } from "./generateKey";
+import { generateKey } from "./utils/generateKey";
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredCache from "./ExpiredCache";
 import RefCache from "./RefCache";
-import { invariant } from "./inveriant";
+import { invariant } from "./utils/inveriant";
+import setPropertiesForCache from "./setProperties";
 
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
@@ -29,9 +30,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
     cache = new ExpiredCache<T>(cache, options.timeout)
   }
 
-  fn.prototype.set = cache.set
-  fn.prototype.delete = cache.delete
-  fn.prototype.deleteRef = cache.deleteRef
+  setPropertiesForCache<T>(fn, cache)
 
   return new Proxy(fn, {
     // @ts-ignore
