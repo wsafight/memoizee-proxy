@@ -8,6 +8,12 @@ import getManualFunForCache from "./getManualFunForCache";
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
 
+  // Inspection priority
+  invariant(
+    typeof options?.maxAge === 'number' && options?.refCounter === true,
+    'arguments maxAge and refCounter cannot exist at the same time'
+  )
+
   const normalizer = options?.normalizer ?? generateKey
 
   let cache: MemoizeCache = new Map<string, T>()
@@ -15,12 +21,6 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
   if (options?.weak) {
     cache = new WeakMap<object, T>()
   }
-
-  invariant(
-    typeof options?.maxAge === 'number' && options?.refCounter === true,
-    'arguments maxAge and refCounter cannot exist at the same time'
-  )
-
 
   if (options?.refCounter) {
     cache = new RefCache<T>(cache)
@@ -55,7 +55,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
       if (!currentCache.has(cacheKey)) {
         let result = target.apply(thisArg, argsList)
 
-        //If it is promise, cache current promise
+        // If it is promise, cache current promise
         if (result?.then) {
           result = Promise.resolve(result).catch(error => {
             // If there is an error, delete the current cache promise, otherwise it will cause a second error
