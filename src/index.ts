@@ -4,6 +4,7 @@ import ExpiredCache from "./cache/ExpiredCache";
 import RefCache from "./cache/RefCache";
 import getManualFunForCache from "./getManualFunForCache";
 import checkOptionsThenThrowError from "./checkOptions";
+import LRUCache from "./cache/LRUCache";
 
 /**
  *
@@ -29,11 +30,11 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
   }
 
   if (typeof options?.max === "number") {
-
+    cache = new LRUCache<T>(cache, options.max)
   }
 
 
-  if (typeof options?.maxAge === "number" && options.maxAge > 0) {
+  if (typeof options?.maxAge === "number") {
     cache = new ExpiredCache<T>(cache, options.maxAge)
   }
 
