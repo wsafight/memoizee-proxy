@@ -3,7 +3,7 @@ import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredCache from "./cache/ExpiredCache";
 import RefCache from "./cache/RefCache";
 import { invariant } from "./utils/inveriant";
-import setPropertiesForCache from "./setProperties";
+import getManualFunForCache from "./getManualFunForCache";
 
 
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
@@ -30,9 +30,12 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
     cache = new ExpiredCache<T>(cache, options.maxAge)
   }
 
-  setPropertiesForCache<T>(fn, cache)
+  // Provides management functions based on the current configuration
+  const changedFun:  (...args: any[]) => T = options?.manual ?
+    getManualFunForCache<T>(fn, cache) :
+    fn
 
-  return new Proxy(fn, {
+  return new Proxy(changedFun, {
     // @ts-ignore
     cache,
 
