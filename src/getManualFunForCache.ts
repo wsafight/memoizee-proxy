@@ -7,7 +7,7 @@ import { MemoizeCache } from "./interface";
  */
 export default function getManualFunForCache<T>(
   fn: (...args: any[]) => T,
-  cache: MemoizeCache
+  cache: MemoizeCache<T>
 ): (...args: any[]) => T {
   // Do not change the original function object
   const result = Object.assign({}, fn)

@@ -2,12 +2,12 @@ import { CacheMap, MemoizeCache } from "../interface";
 
 export default class RefCache<V> implements CacheMap<string | object, V> {
   // Define static data map as cache pool
-  cacheMap: MemoizeCache
-  cacheRef: MemoizeCache
+  cacheMap: MemoizeCache<V>
+  cacheRef: MemoizeCache<number>
 
-  constructor(cacheMap: MemoizeCache) {
-    this.cacheMap = cacheMap
-    this.cacheRef = cacheMap instanceof WeakMap ? new WeakMap() : new Map()
+  constructor(weak: boolean) {
+    this.cacheMap = weak ? new WeakMap() : new Map()
+    this.cacheRef = weak ? new WeakMap() : new Map()
   }
 
   delete(key: string | object): boolean {
@@ -21,7 +21,7 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
   }
 
   has(key: string | object): boolean {
-    const value: number = this.cacheRef.get(key)
+    const value: number | undefined = this.cacheRef.get(key)
     return !!value;
   }
 

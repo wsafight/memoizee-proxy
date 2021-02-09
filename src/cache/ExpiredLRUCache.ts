@@ -56,7 +56,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
 
   _getOrDeleteIfExpired(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
     const deleted = this.deleteIfExpired(key, item);
-    if (deleted === false) {
+    if (!deleted) {
       return item.data;
     }
     return
@@ -64,12 +64,6 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
 
   _getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
     return this.maxAge ? this._getOrDeleteIfExpired(key, item) : item.data;
-  }
-
-  _peek(key: string | object, cache: any) {
-    const item = cache.get(key);
-
-    return this._getItemValue(key, item);
   }
 
   _set(key: string | object, value: ExpiredCacheItem<V>) {
@@ -97,7 +91,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
 
     if (this.oldCache.has(key)) {
       const item = this.oldCache.get(key);
-      if (this.deleteIfExpired(key, item!) === false) {
+      if (!this.deleteIfExpired(key, item!)) {
         this._moveToRecent(key, item!);
         return item!.data;
       }
@@ -123,7 +117,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
     return false;
   }
 
-  delete(key: string | object) {
+  delete(key: string | object): boolean {
     const deleted = this.cache.delete(key);
 
     if (deleted) {

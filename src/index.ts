@@ -1,10 +1,8 @@
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import { generateKey } from "./utils/generateKey";
 import getManualFunForCache from "./getManualFunForCache";
-import checkOptionsThenThrowError from "./checkOptions";
-import ExpiredCache from "./cache/ExpiredCache";
-import RefCache from "./cache/RefCache";
-import LRUCache from "./cache/LRUCache";
+import checkOptionsThenThrowError from "./checkOptions";;
+import getCacheByOptions from "./getCacheByOptions";
 
 /**
  *
@@ -12,31 +10,13 @@ import LRUCache from "./cache/LRUCache";
  * @param options
  */
 export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
-
   if (options) {
     checkOptionsThenThrowError(options)
   }
 
   const normalizer = options?.normalizer ?? generateKey
 
-  let cache: MemoizeCache = new Map<string, T>()
-
-  if (options?.weak) {
-    cache = new WeakMap<object, T>()
-  }
-
-  if (options?.refCounter) {
-    cache = new RefCache<T>(cache)
-  }
-
-  if (typeof options?.max === "number") {
-    cache = new LRUCache<T>(cache, options.max)
-  }
-
-
-  if (typeof options?.maxAge === "number") {
-    cache = new ExpiredCache<T>(cache, options.maxAge)
-  }
+  let cache: MemoizeCache<T> = getCacheByOptions<T>(options)
 
   // Provides management functions based on the current configuration
   const changedFun: (...args: any[]) => T = options?.manual ?
@@ -49,7 +29,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
 
     apply(target, thisArg, argsList: any[]): T {
 
-      const currentCache: MemoizeCache = (this as any).cache
+      const currentCache: MemoizeCache<T> = (this as any).cache
 
       let cacheKey: string | object
 
@@ -75,9 +55,10 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
         }
         currentCache.set(cacheKey, result);
       } else if (options?.refCounter) {
-        currentCache.addRef?.(cacheKey)
+        // todo value change
+        // currentCache.addRef?.(cacheKey)
       }
-      return currentCache.get(cacheKey);
+      return currentCache.get(cacheKey) as T;
     }
   });
 }
