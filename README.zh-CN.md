@@ -30,7 +30,12 @@ yarn add memoizee-proxy
 | :----| :---- | :---- | :---- |
 | normalizer | 基于当前参数生成唯一值 | (args: any[]) => string | Array.from(argument).join(',') |
 | weak | 是否使用 WeakMap  | boolean | false |
-| timeout | 超时时长，过时删除 | number | undefined |
+| maxAge | 超时时长，过时删除 | number | undefined |
+| max | 存储的最大项目数  | number | undefined |
+| manual | 启用手动管理  | boolean | false |
+| refCounter | 启动引用计数 | boolean | false |
+| dispose | 在从缓存中去除之前的回调函数 | (value: T) => void | undefined |
+
 
 ## 用法
 
@@ -58,9 +63,6 @@ memoized = memoize(afn, { promise: true });
 memoized(3, 7);
 memoized(3, 7); // Cache hit
 ```
-
-
-
 
 ## Changelog
 

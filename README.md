@@ -21,7 +21,12 @@ Memoize based on Proxy.
 | :----| :---- | :---- | :---- |
 | normalizer | Generates a unique value based on the current parameter | (args: any[]) => string | Array.from(argument).join(',') |
 | weak | Using WeakMap  | boolean | false |
-| timeout | Timeout duration, expired delete | number | undefined |
+| maxAge | Timeout duration, expired delete | number | undefined |
+| max | Maximum number of items stored  | number | undefined |
+| manual | Enable manage the cache manually  | boolean | false |
+| refCounter | Enable reference counting | boolean | false |
+| dispose | Called right before an item is evicted from the cache | (value: T) => void | undefined |
+
 
 ## Installation
 
@@ -60,8 +65,6 @@ memoized = memoize(afn, { promise: true });
 memoized(3, 7);
 memoized(3, 7); // Cache hit
 ```
-
-
 
 ## Changelog
 
