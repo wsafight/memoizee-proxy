@@ -1,7 +1,7 @@
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import { generateKey } from "./utils/generateKey";
 import getManualFunForCache from "./getManualFunForCache";
-import checkOptionsThenThrowError from "./checkOptions";;
+import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 
 /**

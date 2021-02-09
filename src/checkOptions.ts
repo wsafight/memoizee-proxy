@@ -30,6 +30,4 @@ export default function checkOptionsThenThrowError(options: MemoizeOptions) {
     typeof options?.maxAge === 'number' && options?.refCounter === true,
     'options maxAge and refCounter cannot exist at the same time'
   )
-
-  // todo max maxAge(under advisement)
 }
