@@ -2,12 +2,14 @@ export interface CacheMap<K ,V> {
   delete(key: K): boolean;
   get(key: K): V | undefined;
   has(key: K): boolean;
-  set(key: K, value: V, timeout?: number): this;
+  set(key: K, value: V): this;
   addRef?(key: K): void;
   deleteRef?(key: K): boolean;
+  clear?(): void;
 }
 
-export type MemoizeCache = CacheMap<string | object, any>
+
+export type MemoizeCache<V> = CacheMap<string | object, V>
 
 export interface MemoizeOptions {
   /** Generates a unique value based on the current parameter */

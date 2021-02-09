@@ -1,16 +1,23 @@
 import ExpiredCacheItem from "./ExpiredCacheItem";
+import { CacheMap, MemoizeCache } from "../interface";
 
 interface QuickLRUOptions {
   max?: number;
   maxAge?: number;
+  weak?: boolean;
 }
 
-export default class QuickLRU<V> {
+export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> {
   max: number
   maxAge: number
   private size: number = 0
-  cache: any;
-  oldCache: any
+
+  cache: MemoizeCache<ExpiredCacheItem<V>>;
+
+  oldCache: MemoizeCache<ExpiredCacheItem<V>>;
+
+  weak: boolean = false
+
   constructor(options?: QuickLRUOptions) {
 
     this.max = options?.max || Number.POSITIVE_INFINITY;
@@ -18,23 +25,17 @@ export default class QuickLRU<V> {
     if (typeof options?.maxAge === 'number' && options.maxAge > 0) {
       this.maxAge = options?.maxAge
     }
-    // this.onEviction = options.onEviction;
-    this.cache = new Map();
-    this.oldCache = new Map();
+    this.weak = options?.weak ?? false
+
+    this.cache = this.getMemoizeCacheByWeak()
+    this.cache = this.getMemoizeCacheByWeak()
   }
 
-  // TODO: Use private class methods when targeting Node.js 16.
-  // _emitEvictions(cache) {
-  //   if (typeof this.onEviction !== 'function') {
-  //     return;
-  //   }
-  //
-  //   for (const [key, item] of cache) {
-  //     this.onEviction(key, item.value);
-  //   }
-  // }
+  private getMemoizeCacheByWeak(): MemoizeCache<ExpiredCacheItem<V>> {
+    return this.weak ? new WeakMap() : new Map()
+  }
 
-  isOverTime(item: ExpiredCacheItem<V>) {
+  private isOverTime(item: ExpiredCacheItem<V>) {
 
     // Get the current time stamp of the system
     const currentTime = (new Date()).getTime()
@@ -46,26 +47,22 @@ export default class QuickLRU<V> {
     // If the number of seconds in the past is greater than the current timeout, null is also returned to the server to fetch data
   }
 
-  _deleteIfExpired(key: string | object, item: ExpiredCacheItem<V>) {
+  private deleteIfExpired(key: string | object, item: ExpiredCacheItem<V>) {
     if (this.isOverTime(item)) {
-      // if (typeof this.onEviction === 'function') {
-      //   this.onEviction(key, item.value);
-      // }
-
       return this.delete(key);
     }
     return false;
   }
 
   _getOrDeleteIfExpired(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
-    const deleted = this._deleteIfExpired(key, item);
+    const deleted = this.deleteIfExpired(key, item);
     if (deleted === false) {
       return item.data;
     }
     return
   }
 
-  _getItemValue(key: string | object, item: ExpiredCacheItem<V>) {
+  _getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
     return this.maxAge ? this._getOrDeleteIfExpired(key, item) : item.data;
   }
 
@@ -83,7 +80,7 @@ export default class QuickLRU<V> {
       this.size = 0;
       // this._emitEvictions(this.oldCache);
       this.oldCache = this.cache;
-      this.cache = new Map();
+      this.cache = this.getMemoizeCacheByWeak()
     }
   }
 
@@ -92,18 +89,17 @@ export default class QuickLRU<V> {
     this._set(key, item);
   }
 
-  get(key: string|object): V | undefined {
+  get(key: string | object): V | undefined {
     if (this.cache.has(key)) {
       const item = this.cache.get(key);
-
-      return this._getItemValue(key, item);
+      return this._getItemValue(key, item!);
     }
 
     if (this.oldCache.has(key)) {
       const item = this.oldCache.get(key);
-      if (this._deleteIfExpired(key, item) === false) {
-        this._moveToRecent(key, item);
-        return item.data;
+      if (this.deleteIfExpired(key, item!) === false) {
+        this._moveToRecent(key, item!);
+        return item!.data;
       }
     }
     return
@@ -111,20 +107,17 @@ export default class QuickLRU<V> {
 
   set(key: string | object, value: V) {
     const itemCache = new ExpiredCacheItem<V>(value)
-    if (this.cache.has(key)) {
-      this.cache.set(key, itemCache);
-    } else {
-      this._set(key, itemCache);
-    }
+    this.cache.has(key) ? this.cache.set(key, itemCache) : this._set(key, itemCache);
+    return this
   }
 
   has(key: string | object) {
     if (this.cache.has(key)) {
-      return !this._deleteIfExpired(key, this.cache.get(key));
+      return !this.deleteIfExpired(key, this.cache.get(key)!);
     }
 
     if (this.oldCache.has(key)) {
-      return !this._deleteIfExpired(key, this.oldCache.get(key));
+      return !this.deleteIfExpired(key, this.oldCache.get(key)!);
     }
 
     return false;
@@ -141,8 +134,9 @@ export default class QuickLRU<V> {
   }
 
   clear() {
-    this.cache.clear();
-    this.oldCache.clear();
     this.size = 0;
+
+    this.cache.clear?.();
+    this.oldCache.clear?.();
   }
 }
