@@ -23,6 +23,5 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions): MemoizeC
     return new RefCache<V>(options.weak ?? false)
   }
 
-
   return options.weak ? new WeakMap() : new Map()
 }

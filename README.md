@@ -11,7 +11,7 @@ Memoize based on Proxy.
 - [x] Support for promises and asynchronous functions.
 - [x] Configurable weak provides a WeakMap (friendly garbage collection).
 - [x] Cache can be managed manually.
-- [ ] Cache size can be limited on LRU basis.
+- [x] Cache size can be limited on LRU basis.
 - [x] Optional reference counter mode, that allows more sophisticated cache management.
 - [ ] unit tests.
 
