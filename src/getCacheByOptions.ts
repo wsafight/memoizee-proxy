@@ -2,7 +2,7 @@ import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredLRUCache from "./cache/ExpiredLRUCache";
 import RefCache from "./cache/RefCache";
 
-export default function getCacheByOptions<V>(options?: MemoizeOptions): MemoizeCache<V> {
+export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): MemoizeCache<V> {
   if (!options) {
     return new Map()
   }

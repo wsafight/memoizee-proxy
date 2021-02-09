@@ -27,6 +27,12 @@ export default function getManualFunForCache<T>(
         value: (key: string | object) => cache.deleteRef!(key),
         writable: false
       }
+    },
+    ...cache.clear && {
+      clear: {
+        value: () => cache.clear!(),
+        writable: false
+      }
     }
   })
 

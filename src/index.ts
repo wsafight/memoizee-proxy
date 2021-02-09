@@ -9,9 +9,9 @@ import getCacheByOptions from "./getCacheByOptions";
  * @param fn
  * @param options
  */
-export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions) {
+export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions<T>) {
   if (options) {
-    checkOptionsThenThrowError(options)
+    checkOptionsThenThrowError<T>(options)
   }
 
   const normalizer = options?.normalizer ?? generateKey

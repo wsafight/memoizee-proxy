@@ -11,7 +11,7 @@ export interface CacheMap<K ,V> {
 
 export type MemoizeCache<V> = CacheMap<string | object, V>
 
-export interface MemoizeOptions {
+export interface MemoizeOptions<T> {
   /** Generates a unique value based on the current parameter */
   normalizer?: (args: any[]) => string;
   /** using weakMap */
@@ -24,4 +24,6 @@ export interface MemoizeOptions {
   manual?: boolean;
   /** Reference count  */
   refCounter?: boolean;
+  /** Called right before an item is evicted from the cache */
+  dispose?: (value: T) => void;
 }
