@@ -51,7 +51,4 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
     }
     return true
   }
-
-
-
 }

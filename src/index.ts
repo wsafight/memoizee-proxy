@@ -55,8 +55,7 @@ export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeO
         }
         currentCache.set(cacheKey, result);
       } else if (options?.refCounter) {
-        // todo value change
-        // currentCache.addRef?.(cacheKey)
+        currentCache.addRef?.(cacheKey)
       }
       return currentCache.get(cacheKey) as T;
     }
