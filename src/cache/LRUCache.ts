@@ -1,4 +1,5 @@
 import { CacheMap, MemoizeCache } from "../interface";
+import LRU from 'lru'
 
 export default class LRUCache<V> implements CacheMap<string | object, V>  {
   // Define static data map as cache pool
