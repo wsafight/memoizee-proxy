@@ -1,4 +1,4 @@
-import {invariant} from "../../src/utils/inveriant";
+import invariant from "../../src/utils/inveriant";
 
 test('invariant', () => {
   expect(invariant(false, 'error')).toBe(undefined)

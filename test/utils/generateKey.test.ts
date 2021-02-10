@@ -1,4 +1,4 @@
-import {generateKey} from "../../src/utils/generateKey";
+import generateKey from "../../src/utils/generateKey";
 
 test('generateKey from arguments', () => {
   function bb() {
