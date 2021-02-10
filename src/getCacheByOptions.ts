@@ -5,7 +5,7 @@ import BaseCache from "./cache/BaseCache";
 
 export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): MemoizeCache<V> {
   if (!options) {
-    return new Map()
+    return new BaseCache(false)
   }
 
   if (typeof options.max === 'number' || typeof options.maxAge === "number") {

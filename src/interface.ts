@@ -1,14 +1,15 @@
+
 export interface BaseCacheMap<K, V> {
   delete(key: K): boolean;
   get(key: K): V | undefined;
   has(key: K): boolean;
   set(key: K, value: V): this;
   clear?(): void;
+  addRef?(key: K): void;
+  deleteRef?(key: K): boolean;
 }
 
 export interface CacheMap<K ,V> extends BaseCacheMap<K, V>{
-  addRef?(key: K): void;
-  deleteRef?(key: K): boolean;
   clear(): void;
 }
 
