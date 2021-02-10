@@ -1,4 +1,4 @@
-import { invariant } from "./utils/inveriant";
+import invariant from "./utils/inveriant";
 import { MemoizeOptions } from "./interface";
 
 /**

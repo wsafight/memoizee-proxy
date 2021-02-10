@@ -3,7 +3,7 @@
  * @param condition 是否抛出错误
  * @param errorMsg
  */
-export function invariant(condition: boolean, errorMsg: string) {
+export default function invariant(condition: boolean, errorMsg: string) {
   if (condition) {
     throw new Error(errorMsg);
   }
