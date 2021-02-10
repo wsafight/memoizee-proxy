@@ -7,7 +7,7 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
   cacheMap: MemoizeCache<V>
   cacheRef: MemoizeCache<number>
 
-  constructor(weak: boolean) {
+  constructor(weak: boolean = false) {
     this.weak = weak
     this.cacheMap = getMapOrWeakMapByOption(weak)
     this.cacheRef = getMapOrWeakMapByOption(weak)

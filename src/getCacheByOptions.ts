@@ -1,6 +1,7 @@
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredLRUCache from "./cache/ExpiredLRUCache";
 import RefCache from "./cache/RefCache";
+import BaseCache from "./cache/BaseCache";
 
 export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): MemoizeCache<V> {
   if (!options) {
@@ -23,5 +24,5 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): Memoi
     return new RefCache<V>(options.weak ?? false)
   }
 
-  return options.weak ? new WeakMap() : new Map()
+  return new BaseCache(options.weak)
 }
