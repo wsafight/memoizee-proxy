@@ -9,6 +9,7 @@ export default function getManualFunForCache<T>(
   fn: (...args: any[]) => T,
   cache: MemoizeCache<T>
 ): (...args: any[]) => T {
+
   // Do not change the original function object
   const result: (...args: any[]) => T  = new Function('return '+ fn.toString())();
 
