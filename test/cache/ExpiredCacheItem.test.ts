@@ -1,11 +1,8 @@
-import memoize from "../../src";
+import ExpiredCacheItem from "../../src/cache/ExpiredCacheItem";
 
-function fibonacci (n: number): number {
-  return n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2)
-}
 
-test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci)
-  const result = memoized(30)
-  expect(result).toBe(1346269)
+test('new ExpiredCacheItem', () => {
+  const cacheItem = new ExpiredCacheItem('e')
+  expect(cacheItem.cacheTime).toBe((new Date()).getTime())
+  expect(cacheItem.data).toBe('e')
 });
