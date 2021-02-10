@@ -1,11 +1,17 @@
-import memoize from "../../src";
+import {generateKey} from "../../src/utils/generateKey";
 
-function fibonacci (n: number): number {
-  return n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2)
-}
+test('generateKey from arguments', () => {
+  function bb() {
+    expect(generateKey(arguments as any)).toBe('1,2,sale,4')
+  }
+  // @ts-ignore
+  bb( 1,2,'sale',4)
+});
 
-test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci)
-  const result = memoized(30)
-  expect(result).toBe(1346269)
+test('generateKey from arguments', () => {
+  try {
+    generateKey(undefined as any)
+  }catch (e) {
+    expect(e.message).toEqual("Can't generate key from function argument")
+  }
 });
