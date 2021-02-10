@@ -15,8 +15,6 @@ export default function getManualFunForCache<T>(
 
   const result: (...args: any[]) => T  = fn || cloneFun
 
-  console.log(result, fn.toString())
-
   Object.defineProperties(result, {
     set: {
       value: (key: string | object, val: T) => cache.set(key, val),
