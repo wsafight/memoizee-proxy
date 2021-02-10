@@ -1,13 +1,16 @@
 import { CacheMap, MemoizeCache } from "../interface";
+import getMapOrWeakMapByOption from "../utils/getMapOrWeakMapByOption";
 
 export default class RefCache<V> implements CacheMap<string | object, V> {
   // Define static data map as cache pool
+  readonly weak: boolean
   cacheMap: MemoizeCache<V>
   cacheRef: MemoizeCache<number>
 
   constructor(weak: boolean) {
-    this.cacheMap = weak ? new WeakMap() : new Map()
-    this.cacheRef = weak ? new WeakMap() : new Map()
+    this.weak = weak
+    this.cacheMap = getMapOrWeakMapByOption(weak)
+    this.cacheRef = getMapOrWeakMapByOption(weak)
   }
 
   delete(key: string | object): boolean {
@@ -50,5 +53,13 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
       }
     }
     return true
+  }
+
+  clear() {
+    if (this.weak) {
+      this.cacheMap = getMapOrWeakMapByOption(true)
+    } else {
+      this.cacheMap.clear!()
+    }
   }
 }

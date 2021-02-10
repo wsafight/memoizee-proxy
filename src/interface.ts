@@ -1,15 +1,19 @@
-export interface CacheMap<K ,V> {
+export interface BaseCacheMap<K, V> {
   delete(key: K): boolean;
   get(key: K): V | undefined;
   has(key: K): boolean;
   set(key: K, value: V): this;
-  addRef?(key: K): void;
-  deleteRef?(key: K): boolean;
   clear?(): void;
 }
 
+export interface CacheMap<K ,V> extends BaseCacheMap<K, V>{
+  addRef?(key: K): void;
+  deleteRef?(key: K): boolean;
+  clear(): void;
+}
 
-export type MemoizeCache<V> = CacheMap<string | object, V>
+
+export type MemoizeCache<V> = BaseCacheMap<string | object, V>
 
 export interface MemoizeOptions<T> {
   /** Generates a unique value based on the current parameter */

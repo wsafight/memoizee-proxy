@@ -1,5 +1,6 @@
 import ExpiredCacheItem from "./ExpiredCacheItem";
 import { CacheMap, MemoizeCache } from "../interface";
+import getMapOrWeakMapByOption from "../utils/getMapOrWeakMapByOption";
 
 interface QuickLRUOptions {
   max?: number;
@@ -27,13 +28,10 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
     }
     this.weak = options?.weak ?? false
 
-    this.cache = this.getMemoizeCacheByWeak()
-    this.cache = this.getMemoizeCacheByWeak()
+    this.cache = getMapOrWeakMapByOption(this.weak)
+    this.cache = getMapOrWeakMapByOption(this.weak)
   }
 
-  private getMemoizeCacheByWeak(): MemoizeCache<ExpiredCacheItem<V>> {
-    return this.weak ? new WeakMap() : new Map()
-  }
 
   private isOverTime(item: ExpiredCacheItem<V>) {
 
@@ -74,7 +72,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
       this.size = 0;
       // this._emitEvictions(this.oldCache);
       this.oldCache = this.cache;
-      this.cache = this.getMemoizeCacheByWeak()
+      this.cache = getMapOrWeakMapByOption(this.weak)
     }
   }
 
@@ -129,8 +127,12 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
 
   clear() {
     this.size = 0;
-
-    this.cache.clear?.();
-    this.oldCache.clear?.();
+    if (this.weak) {
+      this.cache = getMapOrWeakMapByOption(true)
+      this.oldCache = getMapOrWeakMapByOption(true)
+    } else {
+      this.cache.clear?.();
+      this.oldCache.clear?.();
+    }
   }
 }
