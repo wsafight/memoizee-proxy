@@ -10,8 +10,12 @@ export default function getManualFunForCache<T>(
   cache: MemoizeCache<T>
 ): (...args: any[]) => T {
 
-  // Do not change the original function object
-  const result: (...args: any[]) => T  = new Function('return '+ fn.toString())();
+  // TODO Method copy and save
+  const cloneFun = new Function('return '+ fn.toString())();
+
+  const result: (...args: any[]) => T  = fn || cloneFun
+
+  console.log(result, fn.toString())
 
   Object.defineProperties(result, {
     set: {
