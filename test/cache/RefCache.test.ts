@@ -1,11 +1,17 @@
-import memoize from "../../src";
+import RefCache from "../../src/cache/RefCache";
 
-function fibonacci (n: number): number {
-  return n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2)
-}
+describe('RefCache tests', () => {
+  test('ref construct', () => {
+    const cache = new RefCache()
+    expect(cache.cacheMap instanceof Map).toBe(true)
+    const cacheMap = new RefCache(false)
+    expect(cacheMap.cacheMap instanceof Map).toBe(true)
+    const cacheWeakMap = new RefCache(true)
+    expect(cacheWeakMap.cacheMap instanceof WeakMap).toBe(true)
 
-test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci)
-  const result = memoized(30)
-  expect(result).toBe(1346269)
-});
+  });
+})
+
+
+
+
