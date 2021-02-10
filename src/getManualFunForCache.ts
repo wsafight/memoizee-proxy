@@ -10,7 +10,7 @@ export default function getManualFunForCache<T>(
   cache: MemoizeCache<T>
 ): (...args: any[]) => T {
   // Do not change the original function object
-  const result = Object.assign({}, fn)
+  const result: (...args: any[]) => T  = new Function('return '+ fn.toString())();
 
   Object.defineProperties(result, {
     set: {
