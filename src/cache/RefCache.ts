@@ -24,8 +24,7 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
   }
 
   has(key: string | object): boolean {
-    const value: number | undefined = this.cacheRef.get(key)
-    return !!value;
+    return this.cacheMap.has(key)
   }
 
   set(key: string | object, value: V): this {
