@@ -41,11 +41,15 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
     this.cacheRef.set(key, (refCount ?? 0) + 1)
   }
 
+  getRefCount(key: string | object) {
+    return this.cacheRef.get(key) ?? 0
+  }
+
   deleteRef(key: string | object): boolean {
     if (!this.cacheMap.has(key)) {
       return false
     }
-    const refCount: number = this.cacheRef.get(key) ?? 0
+    const refCount: number = this.getRefCount(key)
 
     if (refCount <= 0) {
       return false

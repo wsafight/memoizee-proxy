@@ -24,7 +24,59 @@ describe('RefCache tests', () => {
   test('ref construct3', () => {
     const cacheWeakMap = new RefCache(true)
     cacheWeakMap.addRef('bb')
-    expect(cacheWeakMap.cacheMap instanceof WeakMap).toBe(true)
+    expect(cacheWeakMap.has('bb')).toBeFalsy()
+  });
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const q = {}
+    cacheWeakMap.set(q, 'gg')
+    cacheWeakMap.deleteRef(q)
+    expect(cacheWeakMap.has(q)).toBeFalsy()
+  });
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const q = {}
+    cacheWeakMap.set(q, 'gg')
+    cacheWeakMap.deleteRef(q)
+    expect(cacheWeakMap.has(q)).toBeFalsy()
+  });
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const q = {}
+    cacheWeakMap.set(q, 'gg')
+    cacheWeakMap.clear()
+    expect(cacheWeakMap.has(q)).toBeFalsy()
+  });
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const b = {}
+    cacheWeakMap.deleteRef(b)
+    expect(cacheWeakMap.has(b)).toBeFalsy()
+  });
+
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const b = {}
+    cacheWeakMap.deleteRef(b)
+    expect(cacheWeakMap.getRefCount(b)).toBe(0)
+  });
+
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const b = {}
+    cacheWeakMap.set(b, 'gggg')
+    cacheWeakMap.addRef(b)
+    cacheWeakMap.addRef(b)
+    cacheWeakMap.deleteRef(b)
+    cacheWeakMap.deleteRef(b)
+    cacheWeakMap.deleteRef(b)
+    expect(cacheWeakMap.has(b)).toBeFalsy()
   });
 })
 
