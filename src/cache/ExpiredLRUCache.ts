@@ -52,7 +52,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
     return false;
   }
 
-  _getOrDeleteIfExpired(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
+  private getOrDeleteIfExpired(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
     const deleted = this.deleteIfExpired(key, item);
     if (!deleted) {
       return item.data;
@@ -60,11 +60,11 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
     return
   }
 
-  _getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
-    return this.maxAge ? this._getOrDeleteIfExpired(key, item) : item.data;
+  private getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
+    return this.maxAge ? this.getOrDeleteIfExpired(key, item) : item.data;
   }
 
-  _set(key: string | object, value: ExpiredCacheItem<V>) {
+  private _set(key: string | object, value: ExpiredCacheItem<V>) {
     this.cache.set(key, value);
     this.size++;
 
@@ -76,7 +76,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
     }
   }
 
-  _moveToRecent(key: string | object, item: ExpiredCacheItem<V>) {
+  private moveToRecent(key: string | object, item: ExpiredCacheItem<V>) {
     this.oldCache.delete(key);
     this._set(key, item);
   }
@@ -84,13 +84,13 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
   get(key: string | object): V | undefined {
     if (this.cache.has(key)) {
       const item = this.cache.get(key);
-      return this._getItemValue(key, item!);
+      return this.getItemValue(key, item!);
     }
 
     if (this.oldCache.has(key)) {
       const item = this.oldCache.get(key);
       if (!this.deleteIfExpired(key, item!)) {
-        this._moveToRecent(key, item!);
+        this.moveToRecent(key, item!);
         return item!.data;
       }
     }
