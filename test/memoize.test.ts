@@ -25,3 +25,17 @@ test('adds 1 + 2 to equal 3', () => {
   console.log(memoized.set('99', 99))
   expect(memoized.get('99')).toBe(99)
 });
+
+test('adds 1 + 2 to equal 3', () => {
+  const memoized = memoize<number>(fibonacci, {weak: true, manual: true})
+  const bb = {}
+  memoized.set(bb, 99)
+  expect(memoized.get(bb)).toBe(99)
+});
+
+test('adds 1 + 2 to equal 3', () => {
+  const memoized = memoize<any>(fibonacci, {weak: true, manual: true})
+  const bb = {}
+  memoized.set(bb, Promise.resolve('ccc'))
+  expect(memoized.get(bb)).toEqual(Promise.resolve('ccc'))
+});
