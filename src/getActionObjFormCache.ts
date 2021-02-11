@@ -9,6 +9,7 @@ export default function getActionObjFormCache<T>(
 ): (...args: any[]) => T {
   const manualTarget = Object.create(null)
   manualTarget.set = (key: string | object, val: T) => cache.set(key, val)
+  manualTarget.get = (key: string | object) => cache.get(key)
   manualTarget.delete = (key: string | object) => cache.delete(key)
   manualTarget.clear = () => cache.clear!()
   if (cache.addRef) {

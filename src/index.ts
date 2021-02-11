@@ -4,12 +4,21 @@ import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 import getActionObjFormCache from "./getActionObjFormCache";
 
+interface ResultFun<V> extends Function{
+  delete(key: string | object): boolean;
+  get(key: string | object): V | undefined;
+  has(key: string | object): boolean;
+  set(key: string | object, value: V): this;
+  clear(): void;
+}
+
+
 /**
  *
  * @param fn
  * @param options
  */
-export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>) {
+export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>): ResultFun<T> {
   checkOptionsThenThrowError<T>(options)
 
   const normalizer = options?.normalizer ?? generateKey
@@ -60,5 +69,5 @@ export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>
       }
       return currentCache.get(cacheKey) as T;
     }
-  });
+  }) as any
 }
