@@ -28,10 +28,8 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
     return !!value;
   }
 
-  set(key: string | object, value: V,): this {
-    if (!this.has(key)) {
-      this.cacheMap.set(key, value)
-    }
+  set(key: string | object, value: V): this {
+    this.cacheMap.set(key, value)
     this.addRef(key)
     return this
   }
