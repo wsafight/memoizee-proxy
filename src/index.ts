@@ -2,7 +2,7 @@ import { MemoizeCache, MemoizeOptions, TargetFun } from "./interface";
 import generateKey from "./utils/generateKey";
 import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
-import getActionObjFormCache from "./getActionObjFormCache";
+import getManualActionObjFormCache from "./getManualActionObjFormCache";
 
 interface ResultFun<V> extends Function{
   delete(key: string | object): boolean;
@@ -30,7 +30,7 @@ export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>
     cache,
     get:  (target: TargetFun<T>,property: string) => {
       if (options?.manual) {
-        const manualTarget = getActionObjFormCache<T>(cache)
+        const manualTarget = getManualActionObjFormCache<T>(cache)
         if (property in manualTarget) {
           return manualTarget[property]
         }

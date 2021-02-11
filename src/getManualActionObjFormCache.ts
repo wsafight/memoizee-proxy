@@ -4,7 +4,7 @@ import { MemoizeCache } from "./interface";
  * Get the function that can manage the cache manually
  * @param cache
  */
-export default function getActionObjFormCache<T>(
+export default function getManualActionObjFormCache<T>(
   cache: MemoizeCache<T>
 ): (...args: any[]) => T {
   const manualTarget = Object.create(null)
