@@ -2,7 +2,7 @@ import { MemoizeCache, MemoizeOptions, TargetFun } from "./interface";
 import generateKey from "./utils/generateKey";
 import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
-import getActionObjFormCache from "./getManualFunForCache";
+import getActionObjFormCache from "./getActionObjFormCache";
 
 /**
  *
