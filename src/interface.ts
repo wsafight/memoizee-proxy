@@ -1,3 +1,4 @@
+export type TargetFun<T> = (...args: any[]) => T
 
 export interface BaseCacheMap<K, V> {
   delete(key: K): boolean;

@@ -1,30 +1,33 @@
-import { MemoizeCache, MemoizeOptions } from "./interface";
+import { MemoizeCache, MemoizeOptions, TargetFun } from "./interface";
 import generateKey from "./utils/generateKey";
-import getManualFunForCache from "./getManualFunForCache";
 import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
+import getActionObjFormCache from "./getManualFunForCache";
 
 /**
  *
  * @param fn
  * @param options
  */
-export default function memoize<T>(fn: (...args: any[]) => T, options?: MemoizeOptions<T>) {
+export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>) {
   checkOptionsThenThrowError<T>(options)
 
   const normalizer = options?.normalizer ?? generateKey
 
   let cache: MemoizeCache<T> = getCacheByOptions<T>(options)
 
-  // Provides management functions based on the current configuration
-  const changedFun: (...args: any[]) => T = options?.manual ?
-    getManualFunForCache<T>(fn, cache) :
-    fn
-
-  return new Proxy(changedFun, {
+  return new Proxy(fn, {
     // @ts-ignore
     cache,
-
+    get:  (target: TargetFun<T>,property: string) => {
+      if (options?.manual) {
+        const manualTarget = getActionObjFormCache<T>(cache)
+        if (property in manualTarget) {
+          return manualTarget[property]
+        }
+      }
+      return target[property]
+    },
     apply(target, thisArg, argsList: any[]): T {
 
       const currentCache: MemoizeCache<T> = (this as any).cache
