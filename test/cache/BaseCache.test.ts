@@ -42,6 +42,20 @@ describe('BaseCache tests', () => {
     expect(baseCache.cacheMap).toEqual(new WeakMap())
   })
 
+  test('setWeakMap baseCache',() => {
+    const baseCache = new BaseCache(true)
+    baseCache.set({b: 1}, 12)
+    baseCache.set({b: 1}, 12)
+    expect(baseCache.has({b: 1})).toBeFalsy()
+  })
+
+
+  test('setWeakMap baseCache',() => {
+    const baseCache = new BaseCache(true)
+    const bb = {}
+    baseCache.set(bb, 12)
+    expect(baseCache.has(bb)).toBeTruthy()
+  })
   test('delete baseCache WeakMap',() => {
     const baseCache = new BaseCache(true)
     const obj = {}
