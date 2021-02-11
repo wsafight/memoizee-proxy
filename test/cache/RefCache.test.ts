@@ -78,6 +78,25 @@ describe('RefCache tests', () => {
     cacheWeakMap.deleteRef(b)
     expect(cacheWeakMap.has(b)).toBeFalsy()
   });
+
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const b = {}
+    cacheWeakMap.cacheMap.set(b, 'gggg')
+    // todo bug 测试
+    cacheWeakMap.deleteRef(b)
+    expect(cacheWeakMap.has(b)).toBeTruthy()
+  });
+
+  test('ref construct3', () => {
+    const cacheWeakMap = new RefCache(true)
+    const b = {}
+    cacheWeakMap.cacheMap.set(b, 'gggg')
+    cacheWeakMap.deleteRef(b)
+    cacheWeakMap.delete(b)
+    expect(cacheWeakMap.has(b)).toBeFalsy()
+  });
 })
 
 
