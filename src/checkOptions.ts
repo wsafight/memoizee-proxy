@@ -5,7 +5,7 @@ import { MemoizeOptions } from "./interface";
  * Check the current configuration, if there is a problem, throw an exception
  * @param options
  */
-export default function checkOptionsThenThrowError<T>(options?: MemoizeOptions<T>) {
+export default function checkOptionsThenThrowError<V>(options?: MemoizeOptions<V>) {
   invariant(
     typeof options?.max === 'number' && options.max <= 0,
     'The current options "max" must be positive'

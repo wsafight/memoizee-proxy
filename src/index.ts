@@ -1,45 +1,36 @@
-import { MemoizeCache, MemoizeOptions, TargetFun } from "./interface";
+import { MemoizeCache, MemoizeOptions, ResultFun, TargetFun } from "./interface";
 import generateKey from "./utils/generateKey";
 import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 import getManualActionObjFormCache from "./getManualActionObjFormCache";
-
-interface ResultFun<V> extends Function{
-  delete(key: string | object): boolean;
-  get(key: string | object): V | undefined;
-  has(key: string | object): boolean;
-  set(key: string | object, value: V): this;
-  clear(): void;
-}
-
 
 /**
  *
  * @param fn
  * @param options
  */
-export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>): ResultFun<T> {
-  checkOptionsThenThrowError<T>(options)
+export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
+  checkOptionsThenThrowError<V>(options)
 
   const normalizer = options?.normalizer ?? generateKey
 
-  let cache: MemoizeCache<T> = getCacheByOptions<T>(options)
+  let cache: MemoizeCache<V> = getCacheByOptions<V>(options)
 
   return new Proxy(fn, {
     // @ts-ignore
     cache,
-    get:  (target: TargetFun<T>,property: string) => {
+    get:  (target: TargetFun<V>,property: string) => {
       if (options?.manual) {
-        const manualTarget = getManualActionObjFormCache<T>(cache)
+        const manualTarget = getManualActionObjFormCache<V>(cache)
         if (property in manualTarget) {
           return manualTarget[property]
         }
       }
       return target[property]
     },
-    apply(target, thisArg, argsList: any[]): T {
+    apply(target, thisArg, argsList: any[]): V {
 
-      const currentCache: MemoizeCache<T> = (this as any).cache
+      const currentCache: MemoizeCache<V> = (this as any).cache
 
       let cacheKey: string | object
 
@@ -67,7 +58,7 @@ export default function memoize<T>(fn: TargetFun<T>, options?: MemoizeOptions<T>
       } else if (options?.refCounter) {
         currentCache.addRef?.(cacheKey)
       }
-      return currentCache.get(cacheKey) as T;
+      return currentCache.get(cacheKey) as V;
     }
   }) as any
 }

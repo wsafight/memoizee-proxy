@@ -20,7 +20,7 @@ export default class BaseCacheWithDispose<V, WrapperV> extends BaseCache<Wrapper
     }
   }
 
-  disposeAllValue<T>(cacheMap: MemoizeCache<T>) {
+  disposeAllValue<V>(cacheMap: MemoizeCache<V>) {
     for (let mapValue of (cacheMap as any)) {
       this.disposeValue(mapValue?.[1])
     }
