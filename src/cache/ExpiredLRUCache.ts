@@ -1,6 +1,6 @@
 import ExpiredCacheItem from "./ExpiredCacheItem";
 import { CacheMap, DisposeFun, MemoizeCache } from "../interface";
-import CacheWithDispose from "./CacheWithDispose";
+import BaseCacheWithDispose from "./BaseCacheWithDispose";
 
 interface QuickLRUOptions<V> {
   max?: number;
@@ -10,7 +10,7 @@ interface QuickLRUOptions<V> {
 }
 
 
-export default class ExpiredLRUCache<V> extends CacheWithDispose<V,  ExpiredCacheItem<V>> implements CacheMap<string | object, V> {
+export default class ExpiredLRUCache<V> extends BaseCacheWithDispose<V,  ExpiredCacheItem<V>> implements CacheMap<string | object, V> {
   readonly max: number
   readonly maxAge: number
   private size: number = 0

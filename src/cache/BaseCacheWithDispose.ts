@@ -3,7 +3,7 @@ import BaseCache from "./BaseCache";
 
 const defaultDispose: DisposeFun<any> = () => void 0
 
-export default class CacheWithDispose<V, WrapperV> extends BaseCache<WrapperV> {
+export default class BaseCacheWithDispose<V, WrapperV> extends BaseCache<WrapperV> {
   readonly weak: boolean
   readonly dispose: DisposeFun<V>
 

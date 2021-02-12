@@ -1,10 +1,10 @@
 import { CacheMap, DisposeFun } from "../interface";
-import CacheWithDispose from "./CacheWithDispose";
+import BaseCacheWithDispose from "./BaseCacheWithDispose";
 
 /**
  * To clear the data in the cache
  */
-export default class Cache<V> extends CacheWithDispose<V, V> implements CacheMap<string | object, V> {
+export default class Cache<V> extends BaseCacheWithDispose<V, V> implements CacheMap<string | object, V> {
 
   constructor(weak: boolean = false, dispose: DisposeFun<V> = () => void 0) {
     super(weak, dispose)

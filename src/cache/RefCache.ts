@@ -1,7 +1,7 @@
 import { CacheMap, DisposeFun, MemoizeCache } from "../interface";
-import CacheWithDispose from "./CacheWithDispose";
+import BaseCacheWithDispose from "./BaseCacheWithDispose";
 
-export default class RefCache<V> extends CacheWithDispose<V, V> implements CacheMap<string | object, V> {
+export default class RefCache<V> extends BaseCacheWithDispose<V, V> implements CacheMap<string | object, V> {
   cacheRef: MemoizeCache<number>
 
   constructor(weak: boolean = false, dispose: DisposeFun<V> = () => void 0) {
