@@ -1,18 +1,18 @@
 import getCacheByOptions from "../src/getCacheByOptions";
-import BaseCache from "../src/cache/BaseCache";
+import Cache from "../src/cache/BaseCache";
 import RefCache from "../src/cache/RefCache";
 import ExpiredLRUCache from "../src/cache/ExpiredLRUCache";
 
 describe('BaseCache tests', () => {
 
   test('null options', () => {
-    expect(getCacheByOptions() instanceof BaseCache).toBe(true)
+    expect(getCacheByOptions() instanceof Cache).toBe(true)
   })
 
   test('options', () => {
     expect(getCacheByOptions({
       weak: true
-    }) instanceof BaseCache).toBe(true)
+    }) instanceof Cache).toBe(true)
   })
 
   test('options', () => {

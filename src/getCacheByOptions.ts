@@ -1,11 +1,11 @@
 import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredLRUCache from "./cache/ExpiredLRUCache";
 import RefCache from "./cache/RefCache";
-import BaseCache from "./cache/BaseCache";
+import Cache from "./cache/Cache";
 
 export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): MemoizeCache<V> {
   if (!options) {
-    return new BaseCache(false)
+    return new Cache(false)
   }
 
   if (typeof options.max === 'number' || typeof options.maxAge === "number") {
@@ -16,13 +16,16 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): Memoi
       },
       ...options.maxAge && {
         maxAge: options.maxAge
+      },
+      ...options.dispose && {
+        dispose: options.dispose
       }
     })
   }
 
   if (options.refCounter) {
-    return new RefCache<V>(options.weak ?? false)
+    return new RefCache<V>(options.weak ?? false, options.dispose)
   }
 
-  return new BaseCache(options.weak)
+  return new Cache(options.weak, options.dispose)
 }

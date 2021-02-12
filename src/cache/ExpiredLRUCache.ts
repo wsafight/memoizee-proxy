@@ -1,35 +1,30 @@
 import ExpiredCacheItem from "./ExpiredCacheItem";
-import { CacheMap, MemoizeCache } from "../interface";
-import getMapOrWeakMapByOption from "../utils/getMapOrWeakMapByOption";
+import { CacheMap, DisposeFun, MemoizeCache } from "../interface";
+import CacheWithDispose from "./CacheWithDispose";
 
-interface QuickLRUOptions {
+interface QuickLRUOptions<V> {
   max?: number;
   maxAge?: number;
   weak?: boolean;
+  dispose?: DisposeFun<V>
 }
 
-export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> {
-  max: number
-  maxAge: number
+
+export default class ExpiredLRUCache<V> extends CacheWithDispose<V,  ExpiredCacheItem<V>> implements CacheMap<string | object, V> {
+  readonly max: number
+  readonly maxAge: number
   private size: number = 0
 
-  cache: MemoizeCache<ExpiredCacheItem<V>>;
+  oldCacheMap: MemoizeCache<ExpiredCacheItem<V>>;
 
-  oldCache: MemoizeCache<ExpiredCacheItem<V>>;
-
-  weak: boolean = false
-
-  constructor(options?: QuickLRUOptions) {
-
+  constructor(options?: QuickLRUOptions<V>) {
+    super(options?.weak, options?.dispose)
     this.max = options?.max || Number.POSITIVE_INFINITY;
 
     if (typeof options?.maxAge === 'number' && options.maxAge > 0) {
       this.maxAge = options?.maxAge
     }
-    this.weak = options?.weak ?? false
-
-    this.cache = getMapOrWeakMapByOption(this.weak)
-    this.cache = getMapOrWeakMapByOption(this.weak)
+    this.oldCacheMap = this.getMapOrWeakMapByOption()
   }
 
 
@@ -54,10 +49,7 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
 
   private getOrDeleteIfExpired(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
     const deleted = this.deleteIfExpired(key, item);
-    if (!deleted) {
-      return item.data;
-    }
-    return
+    return !deleted ? item.data : undefined;
   }
 
   private getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
@@ -65,74 +57,74 @@ export default class ExpiredLRUCache<V> implements CacheMap<string | object, V> 
   }
 
   private _set(key: string | object, value: ExpiredCacheItem<V>) {
-    this.cache.set(key, value);
+    this.cacheMap.set(key, value);
     this.size++;
 
     if (this.size >= this.max) {
       this.size = 0;
       // this._emitEvictions(this.oldCache);
-      this.oldCache = this.cache;
-      this.cache = getMapOrWeakMapByOption(this.weak)
+      this.oldCacheMap = this.cacheMap;
+      this.cacheMap = this.getMapOrWeakMapByOption()
     }
   }
 
   private moveToRecent(key: string | object, item: ExpiredCacheItem<V>) {
-    this.oldCache.delete(key);
+    this.oldCacheMap.delete(key);
     this._set(key, item);
   }
 
   get(key: string | object): V | undefined {
-    if (this.cache.has(key)) {
-      const item = this.cache.get(key);
+    if (this.has(key)) {
+      const item = this.cacheMap.get(key);
       return this.getItemValue(key, item!);
     }
 
-    if (this.oldCache.has(key)) {
-      const item = this.oldCache.get(key);
+    if (this.oldCacheMap.has(key)) {
+      const item = this.oldCacheMap.get(key);
       if (!this.deleteIfExpired(key, item!)) {
         this.moveToRecent(key, item!);
-        return item!.data;
+        return item!.data as V;
       }
     }
-    return
+    return undefined
   }
 
   set(key: string | object, value: V) {
     const itemCache = new ExpiredCacheItem<V>(value)
-    this.cache.has(key) ? this.cache.set(key, itemCache) : this._set(key, itemCache);
+    this.cacheMap.has(key) ? this.cacheMap.set(key, itemCache) : this._set(key, itemCache);
     return this
   }
 
   has(key: string | object) {
-    if (this.cache.has(key)) {
-      return !this.deleteIfExpired(key, this.cache.get(key)!);
+    if (this.cacheMap.has(key)) {
+      return !this.deleteIfExpired(key, this.cacheMap.get(key)!);
     }
 
-    if (this.oldCache.has(key)) {
-      return !this.deleteIfExpired(key, this.oldCache.get(key)!);
+    if (this.oldCacheMap.has(key)) {
+      return !this.deleteIfExpired(key, this.oldCacheMap.get(key)!);
     }
 
     return false;
   }
 
   delete(key: string | object): boolean {
-    const deleted = this.cache.delete(key);
+    const deleted = this.cacheMap.delete(key);
 
     if (deleted) {
       this.size--;
     }
 
-    return this.oldCache.delete(key) || deleted;
+    return this.oldCacheMap.delete(key) || deleted;
   }
 
   clear() {
     this.size = 0;
     if (this.weak) {
-      this.cache = getMapOrWeakMapByOption(true)
-      this.oldCache = getMapOrWeakMapByOption(true)
+      this.cacheMap = this.getMapOrWeakMapByOption()
+      this.oldCacheMap = this.getMapOrWeakMapByOption()
     } else {
-      this.cache.clear?.();
-      this.oldCache.clear?.();
+      this.cacheMap.clear?.();
+      this.oldCacheMap.clear?.();
     }
   }
 }

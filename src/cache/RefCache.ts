@@ -1,19 +1,16 @@
-import { CacheMap, MemoizeCache } from "../interface";
-import getMapOrWeakMapByOption from "../utils/getMapOrWeakMapByOption";
+import { CacheMap, DisposeFun, MemoizeCache } from "../interface";
+import CacheWithDispose from "./CacheWithDispose";
 
-export default class RefCache<V> implements CacheMap<string | object, V> {
-  // Define static data map as cache pool
-  readonly weak: boolean
-  cacheMap: MemoizeCache<V>
+export default class RefCache<V> extends CacheWithDispose<V, V> implements CacheMap<string | object, V> {
   cacheRef: MemoizeCache<number>
 
-  constructor(weak: boolean = false) {
-    this.weak = weak
-    this.cacheMap = getMapOrWeakMapByOption(weak)
-    this.cacheRef = getMapOrWeakMapByOption(weak)
+  constructor(weak: boolean = false, dispose: DisposeFun<V> = () => void 0) {
+    super(weak, dispose)
+    this.cacheRef = this.getMapOrWeakMapByOption<number>()
   }
 
   delete(key: string | object): boolean {
+    this.disposeValue(this.get(key))
     this.cacheRef.delete(key)
     this.cacheMap.delete(key)
     return true;
@@ -68,8 +65,9 @@ export default class RefCache<V> implements CacheMap<string | object, V> {
 
   clear() {
     if (this.weak) {
-      this.cacheMap = getMapOrWeakMapByOption(true)
+      this.cacheMap = this.getMapOrWeakMapByOption()
     } else {
+      this.disposeAllValue(this.cacheMap)
       this.cacheMap.clear!()
     }
   }
