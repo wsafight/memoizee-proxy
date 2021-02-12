@@ -13,7 +13,7 @@ Memoize based on Proxy.
 - [x] Cache can be managed manually.
 - [x] Cache size can be limited on LRU basis.
 - [x] Optional reference counter mode, that allows more sophisticated cache management.
-- [ ] unit tests.
+- [x] unit tests.
 
 ## API
 
@@ -67,6 +67,15 @@ memoized(3, 7); // Cache hit
 ```
 
 ## Changelog
+
+
+### 0.0.2
+- Basically completed, added max, maxAge to provide data management.
+- Manual is added to control the cache manually.
+- Reference count cache added.
+- Add the dispose function to call the control value when deleting data.
+- Add unit tests.
+
 
 ### 0.0.1
 - Basically available, add parameters "normalizer"、 "weak" 、"timeout"
