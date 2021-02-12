@@ -12,6 +12,7 @@
 /dist
 
 # misc
+.idea
 .vscode
 .DS_Store
 .env.local
