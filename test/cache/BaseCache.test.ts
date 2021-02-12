@@ -1,4 +1,4 @@
-import Cache from "../../src/cache/BaseCache";
+import Cache from "../../src/cache/Cache";
 
 describe('BaseCache tests', () => {
 
