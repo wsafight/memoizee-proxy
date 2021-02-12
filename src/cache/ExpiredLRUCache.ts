@@ -108,6 +108,11 @@ export default class ExpiredLRUCache<V> extends BaseCacheWithDispose<V,  Expired
   }
 
   delete(key: string | object): boolean {
+    const value = this.cacheMap.get(key)
+    this.disposeValue(value?.data)
+    const oldValue = this.oldCacheMap.get(key)
+    this.disposeValue(oldValue?.data)
+
     const deleted = this.cacheMap.delete(key);
 
     if (deleted) {
@@ -117,12 +122,20 @@ export default class ExpiredLRUCache<V> extends BaseCacheWithDispose<V,  Expired
     return this.oldCacheMap.delete(key) || deleted;
   }
 
+  disposeAllValue(cacheMap: MemoizeCache<any>) {
+    for (let mapValue of (cacheMap as any)) {
+      this.disposeValue(mapValue?.[1]?.data)
+    }
+  }
+
   clear() {
     this.size = 0;
     if (this.weak) {
       this.cacheMap = this.getMapOrWeakMapByOption()
       this.oldCacheMap = this.getMapOrWeakMapByOption()
     } else {
+      this.disposeAllValue(this.cacheMap)
+      this.disposeAllValue(this.oldCacheMap)
       this.cacheMap.clear?.();
       this.oldCacheMap.clear?.();
     }
