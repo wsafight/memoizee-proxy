@@ -4,6 +4,10 @@ import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 import getManualActionObjFormCache from "./getManualActionObjFormCache";
 
+function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => string, weak: boolean = false): object | string {
+  return weak ? argsList[0] as object : normalizer(argsList)
+}
+
 /**
  *
  * @param fn
@@ -19,7 +23,7 @@ export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>
   return new Proxy(fn, {
     // @ts-ignore
     cache,
-    get:  (target: TargetFun<V>,property: string) => {
+    get: (target: TargetFun<V>, property: string) => {
       if (options?.manual) {
         const manualTarget = getManualActionObjFormCache<V>(cache)
         if (property in manualTarget) {
@@ -32,14 +36,7 @@ export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>
 
       const currentCache: MemoizeCache<V> = (this as any).cache
 
-      let cacheKey: string | object
-
-      if (options?.weak) {
-        // If it is WeakMap, the first data of the parameter
-        cacheKey = argsList[0] as object
-      } else {
-        cacheKey = normalizer(argsList);
-      }
+      const cacheKey: string | object = getKeyFromArguments(argsList, normalizer, options?.weak)
 
       if (!currentCache.has(cacheKey)) {
         let result = target.apply(thisArg, argsList)

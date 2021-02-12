@@ -1,6 +1,6 @@
 import Cache from "../../src/cache/Cache";
 
-describe('BaseCache tests', () => {
+describe('Cache tests', () => {
 
   test('set baseCache',() => {
     const baseCache = new Cache()
