@@ -76,3 +76,12 @@ test('adds 1 + 2 to equal 3', () => {
   expect(memoized(bb)).toEqual(1)
 });
 
+
+test('adds 1 + 2 to equal 3', () => {
+  const fibonacci = (n: number): number => (n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2));
+  const memoizedFibonacci = memoize<number>(fibonacci, {manual: true, max: 3});
+  expect(memoizedFibonacci(3)).toEqual(3)
+  expect(memoizedFibonacci(4)).toEqual(5)
+  expect(memoizedFibonacci(5)).toEqual(8)
+});
+

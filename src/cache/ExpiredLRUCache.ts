@@ -53,7 +53,7 @@ export default class ExpiredLRUCache<V> extends BaseCacheWithDispose<V,  Expired
   }
 
   private getItemValue(key: string | object, item: ExpiredCacheItem<V>): V | undefined {
-    return this.maxAge ? this.getOrDeleteIfExpired(key, item) : item.data;
+    return this.maxAge ? this.getOrDeleteIfExpired(key, item) : item?.data;
   }
 
   private _set(key: string | object, value: ExpiredCacheItem<V>) {
@@ -74,7 +74,7 @@ export default class ExpiredLRUCache<V> extends BaseCacheWithDispose<V,  Expired
   }
 
   get(key: string | object): V | undefined {
-    if (this.has(key)) {
+    if (this.cacheMap.has(key)) {
       const item = this.cacheMap.get(key);
       return this.getItemValue(key, item!);
     }
