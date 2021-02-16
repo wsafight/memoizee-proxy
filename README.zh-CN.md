@@ -66,6 +66,9 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
+### 0.0.3
+- 修复配置 max,如果添加的值大于等于 max 将会报错
+
 ### 0.0.2
 - 基本完成，添加了 max， maxAge 提供数据管理。
 - 添加了 manual，可以手动控制缓存。

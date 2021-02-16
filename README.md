@@ -68,6 +68,8 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
+### 0.0.3
+- fix the options "max". if the added value is greater than or equal to max, throw error.
 
 ### 0.0.2
 - Basically completed, added max, maxAge to provide data management.
