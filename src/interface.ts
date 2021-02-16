@@ -1,3 +1,4 @@
+
 export type TargetFun<V> = (...args: any[]) => V
 
 export type DisposeFun<V> = (value: V) => void
@@ -42,13 +43,17 @@ export interface MemoizeOptions<V> {
 }
 
 export interface ResultFun<V> extends Function {
-  delete(key: string | object): boolean;
+  delete?(key: string | object): boolean;
 
-  get(key: string | object): V | undefined;
+  get?(key: string | object): V | undefined;
 
-  has(key: string | object): boolean;
+  has?(key: string | object): boolean;
 
-  set(key: string | object, value: V): this;
+  set?(key: string | object, value: V): this;
 
-  clear(): void;
+  clear?(): void;
+
+  addRef?(): void;
+
+  deleteRef?(): void
 }
