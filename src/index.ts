@@ -18,7 +18,7 @@ export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>
 
   const normalizer = options?.normalizer ?? generateKey
 
-  let cache: MemoizeCache<V> = getCacheByOptions<V>(options)
+  const cache: MemoizeCache<V> = getCacheByOptions<V>(options)
 
   return new Proxy(fn, {
     // @ts-ignore
