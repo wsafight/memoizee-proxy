@@ -9,6 +9,10 @@ export default class RefCache<V> extends BaseCacheWithDispose<V, V> implements C
     this.cacheRef = this.getMapOrWeakMapByOption<number>()
   }
 
+  get(key: string | object): V | undefined {
+    return this.cacheMap.get(key)
+  }
+
   delete(key: string | object): boolean {
     this.disposeValue(this.get(key))
     this.cacheRef.delete(key)
