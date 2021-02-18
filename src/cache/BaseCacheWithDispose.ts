@@ -25,4 +25,15 @@ export default class BaseCacheWithDispose<V, WrapperV> extends BaseCache<Wrapper
       this.disposeValue(mapValue?.[1])
     }
   }
+
+  clear(): void {
+    if (this.weak) {
+      // WeakMap doesn't provide cleanup for the time being
+      this.cacheMap = new WeakMap()
+    } else {
+      this.disposeAllValue(this.cacheMap)
+      this.cacheMap.clear!()
+    }
+  }
+
 }

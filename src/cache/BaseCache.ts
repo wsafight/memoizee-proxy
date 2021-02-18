@@ -12,4 +12,19 @@ export default class BaseCache<V> {
   getMapOrWeakMapByOption<T>(): Map<string, T> | WeakMap<object, T>  {
     return this.weak ? new WeakMap<object, T>() : new Map<string, T>()
   }
+
+
+  get(key: string | object): V | undefined {
+    return this.cacheMap.get(key)
+  }
+
+  has(key: string | object): boolean {
+    return this.cacheMap.has(key);
+  }
+
+  set(key: string | object, value: V): this {
+    this.cacheMap.set(key, value)
+    return this;
+  }
+
 }

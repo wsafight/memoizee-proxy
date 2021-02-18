@@ -11,16 +11,6 @@ export default class Cache<V> extends BaseCacheWithDispose<V, V> implements Cach
   }
 
 
-  clear(): void {
-    if (this.weak) {
-      // WeakMap doesn't provide cleanup for the time being
-      this.cacheMap = new WeakMap()
-    } else {
-      this.disposeAllValue(this.cacheMap)
-      this.cacheMap.clear!()
-    }
-  }
-
   delete(key: string | object): boolean {
     const value: V | undefined = this.cacheMap.get(key)
     super.disposeValue(value)
@@ -28,16 +18,5 @@ export default class Cache<V> extends BaseCacheWithDispose<V, V> implements Cach
   }
 
 
-  get(key: string | object): V | undefined {
-    return this.cacheMap.get(key)
-  }
 
-  has(key: string | object): boolean {
-    return this.cacheMap.has(key);
-  }
-
-  set(key: string | object, value: V): this {
-    this.cacheMap.set(key, value)
-    return this;
-  }
 }
