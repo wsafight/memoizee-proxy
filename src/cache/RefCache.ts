@@ -16,14 +16,6 @@ export default class RefCache<V> extends BaseCacheWithDispose<V, V> implements C
     return true;
   }
 
-  get(key: string | object): V | undefined {
-    return this.cacheMap.get(key)
-  }
-
-  has(key: string | object): boolean {
-    return this.cacheMap.has(key)
-  }
-
   set(key: string | object, value: V): this {
     this.cacheMap.set(key, value)
     this.addRef(key)
@@ -65,9 +57,11 @@ export default class RefCache<V> extends BaseCacheWithDispose<V, V> implements C
 
   clear() {
     if (this.weak) {
-      this.cacheMap = this.getMapOrWeakMapByOption()
+      this.cacheRef = new WeakMap()
+      this.cacheMap = new WeakMap()
     } else {
       this.disposeAllValue(this.cacheMap)
+      this.cacheRef.clear!()
       this.cacheMap.clear!()
     }
   }
