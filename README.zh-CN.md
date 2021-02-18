@@ -66,6 +66,11 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
+### 0.0.4
+- 修复 cacheRef clear 方法缺少 cacheRef 清理。
+- 删除 “max” 和 “maxAge” 不能同时存在。
+
+
 ### 0.0.3
 - 修复配置 max,如果添加的值大于等于 max 将会报错
 

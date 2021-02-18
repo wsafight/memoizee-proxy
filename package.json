@@ -1,6 +1,6 @@
 {
   "name": "memoizee-proxy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Memoize/cache function results",
   "author": "jump-jump <984292420@qq.com>",
   "keywords": [

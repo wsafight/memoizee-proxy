@@ -68,6 +68,10 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
+### 0.0.4
+- fix cacheRef clear method missing cacheRef cleanup.
+- remove "max" and "maxAge" options cannot exist at the same time.
+
 ### 0.0.3
 - fix the options "max". if the added value is greater than or equal to max, throw error.
 
