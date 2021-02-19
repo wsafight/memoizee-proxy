@@ -3,6 +3,7 @@ import generateKey from "./utils/generateKey";
 import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 import getManualActionObjFormCache from "./getManualActionObjFormCache";
+import invariant from "./utils/inveriant";
 
 function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => string, weak: boolean = false): object | string {
   return weak ? argsList[0] as object : normalizer(argsList)
@@ -37,6 +38,11 @@ export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>
       const currentCache: MemoizeCache<V> = (this as any).cache
 
       const cacheKey: string | object = getKeyFromArguments(argsList, normalizer, options?.weak)
+
+      invariant(
+        !!options?.weak && Object.prototype.toString.call(cacheKey).slice(8, -1) !== 'Object',
+        'WeakMap key value must be an object'
+      )
 
       if (!currentCache.has(cacheKey)) {
         let result = target.apply(thisArg, argsList)
