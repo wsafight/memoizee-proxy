@@ -27,11 +27,11 @@ export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>
     get: (target: TargetFun<V>, property: string) => {
       if (options?.manual) {
         const manualTarget = getManualActionObjFormCache<V>(cache)
-        if (property in manualTarget) {
-          return manualTarget[property]
+        if (Reflect.has(manualTarget, property)) {
+          return Reflect.get(manualTarget, property);
         }
       }
-      return target[property]
+      return Reflect.get(target, property);
     },
     apply(target, thisArg, argsList: any[]): V {
 
