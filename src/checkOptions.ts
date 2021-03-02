@@ -27,7 +27,7 @@ export default function checkOptionsThenThrowError<V>(options?: MemoizeOptions<V
   )
 
   invariant(
-    typeof options?.useLFU === 'boolean' && options.useLFU && !!options.weak,
+    typeof options?.LFU === 'boolean' && options.LFU && !!options.weak,
     'options LFU and weak cannot exist at the same time'
   )
 

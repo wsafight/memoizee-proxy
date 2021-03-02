@@ -7,11 +7,11 @@ export interface QuickLFUOptions<V> {
   dispose?: DisposeFun<V>
 }
 
-export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V,  V> implements CacheMap<string | object, V> {
+export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V, V> implements CacheMap<string | object, V> {
 
   public size: number;
 
-  public timesMap: Map<string , number>;
+  public timesMap: Map<string, number>;
 
 
   constructor(options?: QuickLFUOptions<V>) {
@@ -34,7 +34,7 @@ export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V,  V> impl
   get(key: string): V | undefined {
     if (this.cacheMap.has(key)) {
       const val = this.cacheMap.get(key)
-      const time:number = this.timesMap.get(key) || 0
+      const time: number = this.timesMap.get(key) || 0
       this.timesMap.set(key, time + 1)
       return val
     }
@@ -56,7 +56,7 @@ export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V,  V> impl
     if (this.size < cacheMap.size) {
       const it = cacheMap.keys()
       let delKey = it.next().value
-      while( delKey && this.timesMap.get(delKey) !== min ) {  // 找到最小那个key
+      while (delKey && this.timesMap.get(delKey) !== min) {  // 找到最小那个key
         delKey = it.next().value
       }
       this.disposeValue(cacheMap.get(delKey))
@@ -66,4 +66,9 @@ export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V,  V> impl
     return this
   }
 
+  clear() {
+    this.disposeAllValue(this.cacheMap)
+    this.cacheMap.clear!()
+    this.timesMap.clear()
+  }
 }

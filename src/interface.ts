@@ -31,7 +31,7 @@ export interface MemoizeOptions<V> {
   /** using weakMap */
   weak?: boolean;
   /** use LFU cache */
-  useLFU?: boolean;
+  LFU?: boolean;
   /** Timeout duration, expired delete */
   maxAge?: number;
   /** How much data can be saved at most? Use LRU  */

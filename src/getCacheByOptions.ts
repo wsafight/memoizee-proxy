@@ -24,7 +24,7 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): Memoi
     })
   }
 
-  if (typeof options.useLFU === 'boolean' && options.useLFU) {
+  if (typeof options.LFU === 'boolean' && options.LFU) {
     const currentOptions: QuickLFUOptions<V> = {}
     if (options.max === 'number' ) {
       currentOptions.capacity = options.max
