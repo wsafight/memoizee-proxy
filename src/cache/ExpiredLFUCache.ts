@@ -1,7 +1,7 @@
 import BaseCacheWithDispose from "./BaseCacheWithDispose";
 import { CacheMap, DisposeFun } from "../interface";
 
-interface QuickLFUOptions<V> {
+export interface QuickLFUOptions<V> {
   capacity?: number;
   maxAge?: number;
   dispose?: DisposeFun<V>

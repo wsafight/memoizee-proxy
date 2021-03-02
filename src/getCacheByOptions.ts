@@ -2,6 +2,7 @@ import { MemoizeCache, MemoizeOptions } from "./interface";
 import ExpiredLRUCache from "./cache/ExpiredLRUCache";
 import RefCache from "./cache/RefCache";
 import Cache from "./cache/Cache";
+import ExpiredLFUCache, { QuickLFUOptions } from "./cache/ExpiredLFUCache";
 
 export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): MemoizeCache<V> {
   if (!options) {
@@ -23,6 +24,19 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): Memoi
     })
   }
 
+  if (typeof options.useLFU === 'boolean' && options.useLFU) {
+    const currentOptions: QuickLFUOptions<V> = {}
+    if (options.max === 'number' ) {
+      currentOptions.capacity = options.max
+    }
+    if (options.maxAge === 'number') {
+      currentOptions.maxAge = options.maxAge
+    }
+    if (options.dispose) {
+      currentOptions.dispose = options.dispose
+    }
+    return new ExpiredLFUCache(currentOptions)
+  }
 
   if (options.refCounter) {
     return new RefCache<V>(options.weak ?? false, options.dispose)
