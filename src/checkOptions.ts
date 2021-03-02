@@ -25,4 +25,7 @@ export default function checkOptionsThenThrowError<V>(options?: MemoizeOptions<V
     typeof options?.maxAge === 'number' && options?.refCounter === true,
     'options maxAge and refCounter cannot exist at the same time'
   )
+
+  invariant(!!options?.dispose && typeof options.dispose !== 'function',
+    'options dispose must is a function')
 }
