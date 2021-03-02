@@ -26,6 +26,11 @@ export default function checkOptionsThenThrowError<V>(options?: MemoizeOptions<V
     'options maxAge and refCounter cannot exist at the same time'
   )
 
+  invariant(
+    typeof options?.useLFU === 'boolean' && options.useLFU && !!options.weak,
+    'options LFU and weak cannot exist at the same time'
+  )
+
   invariant(!!options?.dispose && typeof options.dispose !== 'function',
     'options dispose must is a function')
 }
