@@ -23,6 +23,7 @@ export default function getCacheByOptions<V>(options?: MemoizeOptions<V>): Memoi
     })
   }
 
+
   if (options.refCounter) {
     return new RefCache<V>(options.weak ?? false, options.dispose)
   }

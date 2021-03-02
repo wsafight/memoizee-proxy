@@ -30,6 +30,8 @@ export interface MemoizeOptions<V> {
   normalizer?: (args: any[]) => string;
   /** using weakMap */
   weak?: boolean;
+  /** use LFU cache */
+  useLFU?: boolean;
   /** Timeout duration, expired delete */
   maxAge?: number;
   /** How much data can be saved at most? Use LRU  */
