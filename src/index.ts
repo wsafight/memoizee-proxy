@@ -19,7 +19,7 @@ function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => strin
  * @param fn
  * @param options
  */
-function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
+export default function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
   checkOptionsThenThrowError<V>(options)
 
   const normalizer = options?.normalizer ?? generateKey
@@ -70,5 +70,3 @@ function memoize<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V>
     }
   }) as any
 }
-
-export default memoize
