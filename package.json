@@ -1,6 +1,6 @@
 {
   "name": "memoizee-proxy",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Memoize/cache function results",
   "author": "jump-jump <984292420@qq.com>",
   "keywords": [
@@ -10,7 +10,7 @@
     "memoization",
     "memo",
     "memcached",
-    "hashing.",
+    "hashing",
     "storage",
     "caching",
     "memory",
@@ -40,6 +40,10 @@
       "umd": "./dist/memoizee-proxy.umd.js"
     }
   },
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.13.0",
