@@ -1,6 +1,6 @@
 {
   "name": "memoizee-proxy",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Memoize/cache function results",
   "author": "jump-jump <984292420@qq.com>",
   "keywords": [
@@ -34,10 +34,10 @@
   "source": "src/index.ts",
   "exports": {
     ".": {
-      "browser": "./dist/index.modern.js",
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "umd": "./dist/index.umd.js"
+      "browser": "./dist/memoizee-proxy.modern.js",
+      "import": "./dist/memoizee-proxy.esm.js",
+      "require": "./dist/memoizee-proxy.js",
+      "umd": "./dist/memoizee-proxy.umd.js"
     }
   },
   "dependencies": {},
