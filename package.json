@@ -1,6 +1,6 @@
 {
   "name": "memoizee-proxy",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "Memoize/cache function results",
   "author": "jump-jump <984292420@qq.com>",
   "keywords": [
@@ -22,8 +22,8 @@
     "proxy"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build": "rome bundle src/index.ts dist",
+    "check": "rome check src",
     "prepare": "npm run build",
     "test": "jest --coverage"
   },
@@ -32,26 +32,17 @@
     "url": "git://github.com/wsafight/memoizee-proxy.git"
   },
   "source": "src/index.ts",
-  "exports": {
-    ".": {
-      "browser": "./dist/memoizee-proxy.modern.js",
-      "import": "./dist/memoizee-proxy.esm.js",
-      "require": "./dist/memoizee-proxy.js",
-      "umd": "./dist/memoizee-proxy.umd.js"
-    }
-  },
   "files": [
     "dist",
     "package.json"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "rollup": "^2.40.0",
-    "jest": "^26.6.3",
-    "@types/jest": "^26.0.20",
+    "rome": "^10.0.4-beta",
     "@babel/core": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
-    "@babel/preset-typescript": "^7.12.13"
+    "@babel/preset-typescript": "^7.12.13",
+    "@types/jest": "^26.0.20",
+    "jest": "^26.6.3"
   },
   "license": "MIT"
 }
