@@ -40,7 +40,7 @@ yarn add memoizee-proxy
 ## 用法
 
 ```ts
-import memoizee from 'memoizee-proxy'
+import {memoizee} from 'memoizee-proxy'
 
 var fn = function(one, two, three) {
 	/* ... */
@@ -65,6 +65,10 @@ memoized(3, 7); // Cache hit
 ```
 
 ## Changelog
+
+### 0.1.3
+- 修改打包工具为 Rome(修改默认导出)
+- 导出其他两种 cache 类 ExpiredLRUCache RefCache
 
 ### 0.0.4
 - 修复 cacheRef clear 方法缺少 cacheRef 清理。

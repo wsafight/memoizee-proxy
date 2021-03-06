@@ -42,7 +42,7 @@ yarn add memoizee-proxy
 ## Usage
 
 ```ts
-import memoizee from 'memoizee-proxy'
+import {memoizee} from 'memoizee-proxy'
 
 var fn = function(one, two, three) {
 	/* ... */
@@ -67,6 +67,10 @@ memoized(3, 7); // Cache hit
 ```
 
 ## Changelog
+
+### 0.1.3
+- Modify the packaging tool to Rome (modify the default export)
+- Export the other two cache classes ExpiredLRUCache RefCache
 
 ### 0.0.4
 - fix cacheRef clear method missing cacheRef cleanup.
