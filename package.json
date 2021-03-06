@@ -33,9 +33,10 @@
   },
   "source": "src/index.ts",
   "main": "dist/index.js",
-  "exports": "dist/index.modern.js",
-  "module": "dist/index.module.js",
-  "unpkg": "dist/index.umd.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.m.js",
+  "esmodule": "dist/index.modern.js",
+  "types": "dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.13.0",
