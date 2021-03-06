@@ -5,6 +5,11 @@ import getCacheByOptions from "./getCacheByOptions";
 import getManualActionObjFormCache from "./getManualActionObjFormCache";
 import invariant from "./utils/inveriant";
 
+/** export cache class  */
+export { default as ExpiredLRUCache } from './cache/ExpiredLRUCache'
+
+export { default as RefCache } from './cache/RefCache'
+
 function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => string, weak: boolean = false): object | string {
   return weak ? argsList[0] as object : normalizer(argsList)
 }
@@ -14,7 +19,7 @@ function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => strin
  * @param fn
  * @param options
  */
-export default function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
+export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
   checkOptionsThenThrowError<V>(options)
 
   const normalizer = options?.normalizer ?? generateKey
