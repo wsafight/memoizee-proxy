@@ -1,5 +1,6 @@
-# memoizee-proxy
+# memoizee-proxy 
 
+[![Build Status](https://www.travis-ci.org/wsafight/memoizee-proxy.svg?branch=main)](https://www.travis-ci.org/wsafight/memoizee-proxy)
 
 Read this in other languages: [简体中文](https://github.com/wsafight/memoizee-proxy/blob/main/README.zh-CN.md)
 
