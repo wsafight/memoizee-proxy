@@ -1,4 +1,4 @@
-import memoize from "../src";
+import {memoizee} from "../src";
 
 function fibonacci(n: number): number {
   return n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2)
@@ -18,15 +18,15 @@ function sumPromise(a: number, b: number): Promise<number> {
 }
 
 test('sumPromise', () => {
-  const memoized = memoize<any>(sumPromise, {manual: true})
-  memoized(1, 2)
-  expect(memoized.get('1,2')).toEqual(Promise.resolve(3))
+  const memoizeed = memoizee<any>(sumPromise, {manual: true})
+  memoizeed(1, 2)
+  expect(memoizeed.get?.('1,2')).toEqual(Promise.resolve(3))
 })
 
 test('sumPromise', () => {
-  const memoized = memoize<any>(sumPromise)
+  const memoizeed = memoizee<any>(sumPromise)
   try {
-    memoized(6, 2)
+    memoizeed(6, 2)
   }catch (e) {
     expect(e.message).toBe('error')
   }
@@ -34,54 +34,54 @@ test('sumPromise', () => {
 })
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci)
-  const result = memoized(30)
+  const memoizeed = memoizee<number>(fibonacci)
+  const result = memoizeed(30)
   expect(result).toBe(1346269)
 });
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci)
+  const memoizeed = memoizee<number>(fibonacci)
   try {
-    console.log(memoized.set('99', 99))
+    console.log(memoizeed.set?.('99', 99))
   } catch (e) {
-    expect(e.message).toBe('memoized.set is not a function')
+    expect(e.message).toBe('memoizeed.set is not a function')
   }
 });
 
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci, {manual: true})
-  console.log(memoized.set('99', 99))
-  expect(memoized.get('99')).toBe(99)
+  const memoizeed = memoizee<number>(fibonacci, {manual: true})
+  console.log(memoizeed.set?.('99', 99))
+  expect(memoizeed.get?.('99')).toBe(99)
 });
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<number>(fibonacci, {weak: true, manual: true})
+  const memoizeed = memoizee<number>(fibonacci, {weak: true, manual: true})
   const bb = {}
-  memoized.set(bb, 99)
-  expect(memoized.get(bb)).toBe(99)
+  memoizeed.set?.(bb, 99)
+  expect(memoizeed.get?.(bb)).toBe(99)
 });
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<any>(fibonacci, {weak: true, manual: true})
+  const memoizeed = memoizee<any>(fibonacci, {weak: true, manual: true})
   const bb = {}
-  memoized.set(bb, Promise.resolve('ccc'))
-  expect(memoized.get(bb)).toEqual(Promise.resolve('ccc'))
+  memoizeed.set?.(bb, Promise.resolve('ccc'))
+  expect(memoizeed.get?.(bb)).toEqual(Promise.resolve('ccc'))
 });
 
 
 test('adds 1 + 2 to equal 3', () => {
-  const memoized = memoize<any>(getObjectId, {refCounter: true, manual: true})
+  const memoizeed = memoizee<any>(getObjectId, {refCounter: true, manual: true})
   const bb = {}
-  expect(memoized(bb)).toEqual(1)
+  expect(memoizeed(bb)).toEqual(1)
 });
 
 
 test('adds 1 + 2 to equal 3', () => {
   const fibonacci = (n: number): number => (n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2));
-  const memoizedFibonacci = memoize<number>(fibonacci, {manual: true, max: 3});
-  expect(memoizedFibonacci(3)).toEqual(3)
-  expect(memoizedFibonacci(4)).toEqual(5)
-  expect(memoizedFibonacci(5)).toEqual(8)
+  const memoizeedFibonacci = memoizee<number>(fibonacci, {manual: true, max: 3});
+  expect(memoizeedFibonacci(3)).toEqual(3)
+  expect(memoizeedFibonacci(4)).toEqual(5)
+  expect(memoizeedFibonacci(5)).toEqual(8)
 });
 
