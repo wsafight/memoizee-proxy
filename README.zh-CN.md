@@ -1,5 +1,7 @@
 # memoizee-proxy
 
+[![Build Status](https://www.travis-ci.org/wsafight/memoizee-proxy.svg?branch=main)](https://www.travis-ci.org/wsafight/memoizee-proxy)
+
 基于 Proxy 的备忘录
 
 ## 特性
