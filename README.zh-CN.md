@@ -1,6 +1,8 @@
 # memoizee-proxy
 
 [![Build Status](https://www.travis-ci.org/wsafight/memoizee-proxy.svg?branch=main)](https://www.travis-ci.org/wsafight/memoizee-proxy)
+[![NPM Version](https://badgen.net/npm/v/memoizee-proxy)](https://www.npmjs.com/package/memoizee-proxy)
+
 
 基于 Proxy 的备忘录
 
