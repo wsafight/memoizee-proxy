@@ -1,4 +1,3 @@
-
 export type TargetFun<V> = (...args: any[]) => V
 
 export type DisposeFun<V> = (value: V) => void
@@ -42,6 +41,8 @@ export interface MemoizeOptions<V> {
   refCounter?: boolean;
   /** Called right before an item is evicted from the cache */
   dispose?: DisposeFun<V>;
+  /** Provide shutdown cache */
+  closeable?: boolean
 }
 
 export interface ResultFun<V> extends Function {
@@ -58,4 +59,6 @@ export interface ResultFun<V> extends Function {
   addRef?(): void;
 
   deleteRef?(): void
+
+  handleCacheClose?(): void
 }

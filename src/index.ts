@@ -17,6 +17,10 @@ function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => strin
 export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
   checkOptionsThenThrowError<V>(options)
 
+  let closeable: boolean = false
+
+  const handleCacheClose = () => closeable = true
+
   const normalizer = options?.normalizer ?? generateKey
 
   const cache: MemoizeCache<V> = getCacheByOptions<V>(options)
@@ -31,9 +35,16 @@ export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): Resu
           return Reflect.get(manualTarget, property);
         }
       }
+      if (options?.closeable && property === 'handleCacheClose') {
+        return handleCacheClose
+      }
       return Reflect.get(target, property);
     },
     apply(target, thisArg, argsList: any[]): V {
+
+      if (closeable) {
+        return target.apply(thisArg, argsList)
+      }
 
       const currentCache: MemoizeCache<V> = (this as any).cache
 
