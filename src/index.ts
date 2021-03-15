@@ -37,11 +37,9 @@ function getCacheUseController(resetCallback: () => void) {
 export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
   checkOptionsThenThrowError<V>(options)
 
-
   const normalizer = options?.normalizer ?? generateKey
 
   let cache: MemoizeCache<V> = getCacheByOptions<V>(options)
-
 
   const {
     closeable,

@@ -39,6 +39,7 @@ yarn add memoizee-proxy
 | manual | 启用手动管理  | boolean | false |
 | refCounter | 启动引用计数 | boolean | false |
 | dispose | 在从缓存中去除之前的回调函数 | (value: T) => void | undefined |
+| closeable | 提供是否使用缓存函数 | boolean | false |
 
 
 ## 用法
@@ -69,6 +70,9 @@ memoized(3, 7); // Cache hit
 ```
 
 ## Changelog
+
+### 0.1.6
+- 添加 closeable 参数以便操作缓存开启和关闭
 
 ### 0.1.3
 - 修改打包工具为 Rome(修改默认导出)

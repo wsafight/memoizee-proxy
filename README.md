@@ -28,7 +28,7 @@ Memoize based on Proxy.
 | manual | Enable manage the cache manually  | boolean | false |
 | refCounter | Enable reference counting | boolean | false |
 | dispose | Called right before an item is evicted from the cache | (value: T) => void | undefined |
-
+| closeable | Provide use cache toggle function | boolean | false |
 
 ## Installation
 
@@ -69,6 +69,9 @@ memoized(3, 7); // Cache hit
 ```
 
 ## Changelog
+
+### 0.1.6
+- Add the closeable parameter to operate on and off the cache
 
 ### 0.1.3
 - Modify the packaging tool to Rome (modify the default export)
