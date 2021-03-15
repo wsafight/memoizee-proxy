@@ -62,6 +62,8 @@ test('adds 1 + 2 to equal 3', () => {
   expect(memoizeed.get?.(bb)).toBe(99)
 });
 
+
+
 test('adds 1 + 2 to equal 3', () => {
   const memoizeed = memoizee<any>(fibonacci, {weak: true, manual: true})
   const bb = {}
@@ -85,3 +87,18 @@ test('adds 1 + 2 to equal 3', () => {
   expect(memoizeedFibonacci(5)).toEqual(8)
 });
 
+
+
+test('adds 1 + 2 to equal 3', () => {
+  const memoizeed = memoizee<number>(fibonacci, {weak: true, manual: true, closeable: true})
+  const bb = {}
+  memoizeed.set?.(bb, 99)
+  expect(memoizeed.get?.(bb)).toBe(99)
+  memoizeed.handleCacheClose()
+  expect(memoizeed.get?.(bb)).toBe(undefined)
+
+
+  memoizeed.set?.(bb, 99)
+  memoizeed.handleCacheOpen()
+  expect(memoizeed.get?.(bb)).toBe(99)
+});

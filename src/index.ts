@@ -9,6 +9,26 @@ function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => strin
   return weak ? argsList[0] as object : normalizer(argsList)
 }
 
+
+function getCacheUseController(resetCallback: () => void) {
+  let closeable: boolean = false
+
+  const handleCacheOpen = () => closeable = false
+
+  const handleCacheClose = () => {
+    resetCallback()
+    closeable = true
+  }
+
+  return {
+    closeable,
+    handleCacheOpen,
+    handleCacheClose
+  }
+
+}
+
+
 /**
  *
  * @param fn
@@ -17,13 +37,20 @@ function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => strin
 export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
   checkOptionsThenThrowError<V>(options)
 
-  let closeable: boolean = false
-
-  const handleCacheClose = () => closeable = true
 
   const normalizer = options?.normalizer ?? generateKey
 
-  const cache: MemoizeCache<V> = getCacheByOptions<V>(options)
+  let cache: MemoizeCache<V> = getCacheByOptions<V>(options)
+
+
+  const {
+    closeable,
+    handleCacheClose,
+    handleCacheOpen
+  } = getCacheUseController(() => {
+    cache = getCacheByOptions<V>(options)
+  })
+
 
   return new Proxy(fn, {
     // @ts-ignore
@@ -35,8 +62,13 @@ export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): Resu
           return Reflect.get(manualTarget, property);
         }
       }
-      if (options?.closeable && property === 'handleCacheClose') {
-        return handleCacheClose
+      if (options?.closeable) {
+        if (property === 'handleCacheClose') {
+          return handleCacheClose
+        }
+        if (property === 'handleCacheOpen') {
+          return handleCacheOpen
+        }
       }
       return Reflect.get(target, property);
     },

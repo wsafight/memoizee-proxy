@@ -60,5 +60,7 @@ export interface ResultFun<V> extends Function {
 
   deleteRef?(): void
 
-  handleCacheClose?(): void
+  handleCacheClose(): void
+
+  handleCacheOpen(): void
 }
