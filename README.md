@@ -70,6 +70,9 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
+### 0.1.8
+- [ ] Add time units for maxAge
+
 ### 0.1.6
 - Add the closeable parameter to operate on and off the cache
 
