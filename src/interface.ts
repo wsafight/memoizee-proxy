@@ -32,7 +32,7 @@ export interface MemoizeOptions<V> {
   /** use LFU cache */
   LFU?: boolean;
   /** Timeout duration, expired delete */
-  maxAge?: number;
+  maxAge?: number | string;
   /** How much data can be saved at most? Use LRU  */
   max?: number;
   /** manage the cache manually */

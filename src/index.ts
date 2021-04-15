@@ -4,6 +4,7 @@ import checkOptionsThenThrowError from "./checkOptions";
 import getCacheByOptions from "./getCacheByOptions";
 import getManualActionObjFormCache from "./getManualActionObjFormCache";
 import invariant from "./utils/inveriant";
+import convertMaxAgeFromStringToNumber from "./utils/convertMaxAgeFromStringToNumber";
 
 function getKeyFromArguments(argsList: any[], normalizer: (args: any[]) => string, weak: boolean = false): object | string {
   return weak ? argsList[0] as object : normalizer(argsList)
@@ -31,15 +32,20 @@ function getCacheUseController(resetCallback: () => void) {
 
 /**
  *
- * @param fn
- * @param options
+ * @param fn 函数
+ * @param options 配置
  */
-export function memoizee<V>(fn: TargetFun<V>, options?: MemoizeOptions<V>): ResultFun<V> {
+export function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): ResultFun<V> {
+
+  options.maxAge = convertMaxAgeFromStringToNumber(options.maxAge)
+
   checkOptionsThenThrowError<V>(options)
 
   const normalizer = options?.normalizer ?? generateKey
 
   let cache: MemoizeCache<V> = getCacheByOptions<V>(options)
+
+
 
   const {
     closeable,

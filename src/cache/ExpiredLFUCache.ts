@@ -13,7 +13,6 @@ export default class ExpiredLFUCache<V> extends BaseCacheWithDispose<V, V> imple
 
   public timesMap: Map<string, number>;
 
-
   constructor(options?: QuickLFUOptions<V>) {
     super(false, options?.dispose)
     this.size = options?.capacity || 20
