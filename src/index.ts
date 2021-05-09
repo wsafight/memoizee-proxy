@@ -35,7 +35,7 @@ function getCacheUseController(resetCallback: () => void) {
  * @param fn 函数
  * @param options 配置
  */
-export function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): ResultFun<V> {
+export default function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): ResultFun<V> {
 
   options.maxAge = convertMaxAgeFromStringToNumber(options.maxAge)
 
@@ -92,7 +92,7 @@ export function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): 
       )
 
       if (!currentCache.has(cacheKey)) {
-        let result = target.apply(thisArg, argsList)
+        let result: any= target.apply(thisArg, argsList)
 
         // If it is promise, cache current promise
         if (result?.then) {
