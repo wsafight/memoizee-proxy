@@ -44,7 +44,7 @@ yarn add memoizee-proxy
 ## Usage
 
 ```ts
-import {memoizee} from 'memoizee-proxy'
+import memoizee from 'memoizee-proxy'
 
 var fn = function(one, two, three) {
 	/* ... */
@@ -71,7 +71,7 @@ memoized(3, 7); // Cache hit
 ## Changelog
 
 ### 0.1.8
-- [ ] Add time units for maxAge
+- The build tool was changed from microbundle to tsdx
 
 ### 0.1.6
 - Add the closeable parameter to operate on and off the cache
