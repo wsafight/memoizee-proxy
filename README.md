@@ -44,13 +44,13 @@ yarn add memoizee-proxy
 ## Usage
 
 ```ts
-import memoizee from 'memoizee-proxy'
+import {memoizee} from 'memoizee-proxy'
 
 var fn = function(one, two, three) {
-	/* ... */
+  /* ... */
 };
 
-memoized = memoize(fn);
+var memoized = memoizee(fn);
 
 memoized("foo", 3, "bar");
 memoized("foo", 3, "bar"); // Cache hit
@@ -70,7 +70,7 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
-### 0.1.8
+### 0.1.9
 - The build tool was changed from microbundle to tsdx
 
 ### 0.1.6

@@ -35,7 +35,7 @@ function getCacheUseController(resetCallback: () => void) {
  * @param fn 函数
  * @param options 配置
  */
-export default function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): ResultFun<V> {
+export function memoizee<V>(fn: TargetFun<V>, options: MemoizeOptions<V> = {}): ResultFun<V> {
 
   options.maxAge = convertMaxAgeFromStringToNumber(options.maxAge)
 

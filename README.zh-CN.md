@@ -45,13 +45,13 @@ yarn add memoizee-proxy
 ## 用法
 
 ```ts
-import memoizee from 'memoizee-proxy'
+import {memoizee} from 'memoizee-proxy'
 
 var fn = function(one, two, three) {
-	/* ... */
+  /* ... */
 };
 
-memoized = memoize(fn);
+var memoized = memoizee(fn);
 
 memoized("foo", 3, "bar");
 memoized("foo", 3, "bar"); // Cache hit
@@ -71,7 +71,7 @@ memoized(3, 7); // Cache hit
 
 ## Changelog
 
-### 0.1.8
+### 0.1.9
 - 构建工具由 microbundle 修改为 tsdx
 
 ### 0.1.6
