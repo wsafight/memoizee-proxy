@@ -1,4 +1,4 @@
-import {memoizee} from "../src";
+import memoizee from "../src";
 
 function fibonacci(n: number): number {
   return n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2)
