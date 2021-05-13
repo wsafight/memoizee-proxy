@@ -51,7 +51,7 @@ test('adds 1 + 2 to equal 3', () => {
 
 test('adds 1 + 2 to equal 3', () => {
   const memoizeed = memoizee<number>(fibonacci, {manual: true})
-  console.log(memoizeed.set?.('99', 99))
+  memoizeed.set?.('99', 99)
   expect(memoizeed.get?.('99')).toBe(99)
 });
 
