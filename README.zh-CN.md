@@ -6,6 +6,8 @@
 
 基于 Proxy 的备忘录
 
+开发历程可以参考博客 [手写一个基于 Proxy 的缓存库](https://github.com/wsafight/personBlog/issues/34)
+
 ## 特性
 
 - [x] 适用于任何类型，任意长度的函数参数 – 可选序列化。
